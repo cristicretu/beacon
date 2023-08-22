@@ -8,17 +8,52 @@ import {
  TableRow,
 } from "@/components/ui/table";
 import { InvoiceItem } from "@/lib/types";
+import { Button } from "./ui/button";
+import { Base } from "deta";
+import { revalidatePath } from "next/cache";
 
 export function TableItems({
  items: items,
- key,
+ invoice_key,
 }: {
  items: InvoiceItem[];
- key?: string;
+ invoice_key?: string;
 }) {
+ async function addItem() {
+  "use server";
+
+  if (!invoice_key) {
+   return;
+  }
+
+  const db = Base("invoices");
+
+  const invoice = await db.get(invoice_key);
+
+  if (!invoice || !invoice.items) {
+   return;
+  }
+
+  let items = invoice.items as InvoiceItem[];
+
+  items.push({
+   name: "New Item",
+   description: "Description",
+   quantity: 1,
+   price: 0,
+  });
+
+  await db.update({ items }, invoice_key);
+  revalidatePath("/");
+ }
+
  return (
   <Table className="text-neutral-500 ">
-   <TableCaption>+ Item</TableCaption>
+   <TableCaption>
+    <form action={addItem}>
+     <Button variant={"ghost"}>+ Item</Button>
+    </form>
+   </TableCaption>
    <TableHeader>
     <TableRow>
      <TableHead className="w-[70%]">Item</TableHead>

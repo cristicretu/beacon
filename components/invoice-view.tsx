@@ -5,8 +5,6 @@ import { Invoice } from "@/lib/types";
 import { convertDate } from "@/lib/utils";
 
 export function InvoiceView({ invoice }: { invoice: Invoice }) {
- console.log(invoice);
-
  return (
   <div className="flex flex-col space-y-16 text-neutral-500">
    {/* Top part */}
@@ -37,7 +35,7 @@ export function InvoiceView({ invoice }: { invoice: Invoice }) {
    </div>
 
    {/* Invoice Items */}
-   <TableItems items={invoice.items} key={invoice.key} />
+   <TableItems items={invoice.items} invoice_key={invoice.key} />
 
    {/* Total View */}
    <div className="flex justify-end w-full">
