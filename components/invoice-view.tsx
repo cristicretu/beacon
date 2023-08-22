@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { TableItems } from "./table-items";
 
 export function InvoiceView() {
  return (
@@ -27,6 +28,9 @@ export function InvoiceView() {
      </div>
     </div>
    </div>
+
+   {/* Invoice Items */}
+   <TableItems />
   </div>
  );
 }
