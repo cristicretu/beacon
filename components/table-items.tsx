@@ -10,10 +10,10 @@ import {
 import { InvoiceItem } from "@/lib/types";
 
 export function TableItems({
- invoices,
+ items: items,
  key,
 }: {
- invoices: InvoiceItem[];
+ items: InvoiceItem[];
  key?: string;
 }) {
  return (
@@ -27,7 +27,7 @@ export function TableItems({
     </TableRow>
    </TableHeader>
    <TableBody>
-    {invoices.map((invoice, id) => (
+    {items.map((invoice, id) => (
      <TableRow key={id}>
       <TableCell className="flex flex-col">
        <span className="text-neutral-900 dark:text-neutral-100">
@@ -35,12 +35,12 @@ export function TableItems({
        </span>
        <span className="text-sm">{invoice.description}</span>
       </TableCell>
-      <TableCell>{invoice.qty}</TableCell>
+      <TableCell>{invoice.quantity}</TableCell>
       <TableCell className="text-right flex flex-col">
        <span className="text-neutral-900 dark:text-neutral-100">
-        ${invoice.amt}
+        ${invoice.price}
        </span>
-       <span className="text-sm">${invoice.amt / invoice.qty}</span>
+       <span className="text-sm">${invoice.price / invoice.quantity}</span>
       </TableCell>
      </TableRow>
     ))}

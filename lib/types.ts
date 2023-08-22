@@ -31,6 +31,6 @@ export type Invoice = {
 export type InvoiceItem = {
  name: string;
  description: string;
- qty: number;
- amt: number;
+ quantity: number;
+ price: number;
 };

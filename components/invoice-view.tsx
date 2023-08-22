@@ -37,7 +37,7 @@ export function InvoiceView({ invoice }: { invoice: Invoice }) {
    </div>
 
    {/* Invoice Items */}
-   <TableItems invoices={invoice.items} key={invoice.key} />
+   <TableItems items={invoice.items} key={invoice.key} />
 
    {/* Total View */}
    <div className="flex justify-end w-full">
@@ -45,10 +45,7 @@ export function InvoiceView({ invoice }: { invoice: Invoice }) {
    </div>
 
    {/* Note */}
-   <p>
-    The customer must self-account for VAT on the reverse charge basis in their
-    own jurisdiction. The VAT is not taxable in Romania.
-   </p>
+   {invoice.notes && <p>{invoice.notes}</p>}
   </div>
  );
 }
