@@ -1,5 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TableItems } from "./table-items";
+import { cn } from "@/lib/utils";
+import { TableSubtotal } from "./table-subtotal";
 
 export function InvoiceView() {
  return (
@@ -7,8 +9,8 @@ export function InvoiceView() {
    {/* Top part */}
    <div className="flex flex-col space-y-8">
     <Avatar>
-     <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-     <AvatarFallback>CN</AvatarFallback>
+     <AvatarImage src="https://github.com/sha" alt="myself" />
+     <AvatarFallback>DS</AvatarFallback>
     </Avatar>
 
     <div className="flex flex-col space-y-4 md:flex-row md:justify-between md:items-start md:space-y-0">
@@ -31,6 +33,17 @@ export function InvoiceView() {
 
    {/* Invoice Items */}
    <TableItems />
+
+   {/* Total View */}
+   <div className="flex justify-end w-full">
+    <TableSubtotal />
+   </div>
+
+   {/* Note */}
+   <p>
+    The customer must self-account for VAT on the reverse charge basis in their
+    own jurisdiction. The VAT is not taxable in Romania.
+   </p>
   </div>
  );
 }
