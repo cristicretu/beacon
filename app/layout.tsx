@@ -21,8 +21,8 @@ export default function RootLayout({
    <body
     className={cn(
      inter.className,
-     "flex min-h-screen flex-col items-center justify-between p-8 sm:p-12 md:p-24",
-     "max-w-4xl mx-auto"
+     'h-full, min-h-screen, relative w-full',
+     "flex min-h-screen items-center justify-center p-8 sm:p-12 md:p-24",
     )}
    >
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

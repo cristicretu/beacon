@@ -33,4 +33,5 @@ export type InvoiceItem = {
  description: string;
  quantity: number;
  price: number;
+ id: string;
 };

@@ -41,6 +41,7 @@ export function TableItems({
    description: "Description",
    quantity: 1,
    price: 0,
+   id: Math.random().toString(36).substr(2, 9),
   });
 
   await db.update({ items }, invoice_key);
