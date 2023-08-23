@@ -130,3 +130,11 @@ export async function updateContact(
  await db.update({ [field]: contact }, key);
  revalidatePath("/");
 }
+
+export async function createContact(contact: Contact) {
+ const db = Base("contacts");
+
+ const newContact = await db.put(contact);
+
+ revalidatePath("/");
+}

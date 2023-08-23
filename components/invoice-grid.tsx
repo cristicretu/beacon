@@ -10,7 +10,9 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Plus } from "lucide-react";
+import { Button } from "./ui/button";
+import { NewContact } from "./new-contact";
 
 export function InvoiceGrid({ invoice, editable, contacts }: { invoice: Invoice, editable: boolean, contacts: Contact[] }) {
   return (
@@ -33,7 +35,14 @@ export function InvoiceGrid({ invoice, editable, contacts }: { invoice: Invoice,
       <div className="flex flex-col text-neutral-500">
         <p>From</p>
         {editable ? (
-          <Combobox contacts={contacts} selectedContact={invoice.from} setContact={(contact) => updateContact(invoice.key, contact, "from")} />
+          <div className="flex space-x-1">
+            <Combobox contacts={contacts} selectedContact={invoice.from} setContact={(contact) => updateContact(invoice.key, contact, "from")} />
+            <NewContact>
+              <Button variant='outline' size='icon'>
+                <Plus className="h-4 w-4" />
+              </Button>
+            </NewContact>
+          </div>
         ) : (
           <HoverCard>
             <HoverCardTrigger asChild>
@@ -43,6 +52,7 @@ export function InvoiceGrid({ invoice, editable, contacts }: { invoice: Invoice,
               <div className="flex justify-between space-x-4">
                 <div className="text-neutral-500 space-y-1 flex flex-col text-sm">
                   <h4 className="text-neutral-900 dark:text-neutral-100 font-semibold">@{invoice.from.name}</h4>
+                  <span>{invoice.from.address}</span>
                   {invoice.from.city && (<span>{invoice.from.city},{invoice.from.state ? invoice.from.state : ''}</span>)}
                   <span>{invoice.from.zip ? invoice.from.zip : ''}, {invoice.from.country ? invoice.from.country : ''}</span>
                   <span>Vat ID: {invoice.from.vatId}</span>
@@ -67,7 +77,14 @@ export function InvoiceGrid({ invoice, editable, contacts }: { invoice: Invoice,
 
       <div className="flex flex-col text-neutral-500">
         <p>To</p>
-        {editable ? (<Combobox contacts={contacts} selectedContact={invoice.to} setContact={(contact) => updateContact(invoice.key, contact, "to")} />
+        {editable ? (<div className="flex space-x-1">
+          <Combobox contacts={contacts} selectedContact={invoice.to} setContact={(contact) => updateContact(invoice.key, contact, "to")} />
+          <NewContact>
+            <Button variant='outline' size='icon'>
+              <Plus className="h-4 w-4" />
+            </Button>
+          </NewContact>
+        </div>
         ) : (
           <HoverCard>
             <HoverCardTrigger asChild>
@@ -77,6 +94,7 @@ export function InvoiceGrid({ invoice, editable, contacts }: { invoice: Invoice,
               <div className="flex justify-between space-x-4">
                 <div className="text-neutral-500 space-y-1 flex flex-col text-sm">
                   <h4 className="text-neutral-900 dark:text-neutral-100 font-semibold">@{invoice.to.name}</h4>
+                  <span>{invoice.to.address}</span>
                   {invoice.to.city && (<span>{invoice.to.city},{invoice.to.state ? invoice.to.state : ''}</span>)}
                   <span>{invoice.to.zip ? invoice.to.zip : ''}, {invoice.to.country ? invoice.to.country : ''}</span>
                   <span>Vat ID: {invoice.to.vatId}</span>

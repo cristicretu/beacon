@@ -7,15 +7,16 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { InvoiceGrid } from "./invoice-grid";
 import { getContacts } from "@/lib/actions";
-import { revalidatePath } from "next/cache";
+import { Suspense } from "react";
 
 export async function InvoiceView({ invoice, editable }: { invoice: Invoice, editable: boolean }) {
-
   const contacts = await getContacts();
 
   return (
     <div className="flex flex-col space-y-16 text-neutral-500 relative">
-      <InvoiceSettings invoice={invoice} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <InvoiceSettings invoice={invoice} />
+      </Suspense>
 
       {/* Top part */}
       <div className="flex flex-col space-y-8">
@@ -42,7 +43,9 @@ export async function InvoiceView({ invoice, editable }: { invoice: Invoice, edi
           </div>
 
           {/* Issue Date, Due Date, From, To Grid */}
-          <InvoiceGrid invoice={invoice} editable={editable} contacts={contacts} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <InvoiceGrid invoice={invoice} editable={editable} contacts={contacts} />
+          </Suspense>
         </div>
       </div>
 
@@ -57,14 +60,5 @@ export async function InvoiceView({ invoice, editable }: { invoice: Invoice, edi
       {/* Note */}
       {invoice.notes && <p>{invoice.notes}</p>}
     </div >
-  );
-}
-
-function Card({ description, text }: { description: string; text: string }) {
-  return (
-    <div className="flex flex-col text-neutral-500">
-      <p>{description}</p>
-      <p className="text-neutral-900 dark:text-neutral-100">{text}</p>
-    </div>
   );
 }

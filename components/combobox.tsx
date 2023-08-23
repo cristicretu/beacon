@@ -64,7 +64,7 @@ export function Combobox({ contacts, selectedContact, setContact }: { contacts: 
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder="Search contacts..." />
           <CommandEmpty>No contact found.</CommandEmpty>
           <CommandGroup>
             {contacts.map((contact) => (

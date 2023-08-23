@@ -52,7 +52,8 @@ export default async function RootLayout({
                   {invoices.map((invoice) => (
                     <SheetClose asChild key={invoice.key}>
                       <Button variant="ghost" className="text-neutral-500 font-normal flex items-center justify-between min-w-[300px] py-8" asChild>
-                        <Link href={`/invoice/${invoice.key}`}>
+                        <a
+                          href={`/invoice/${invoice.key}`}>
                           <span className="flex flex-col items-start space-y-0.5">
                             <span className="text-neutral-900 dark:text-neutral-100">{invoice.name}</span>
                             <span>{invoice.to.name}</span>
@@ -62,7 +63,7 @@ export default async function RootLayout({
                             <span className="text-neutral-900 dark:text-neutral-100">${invoice.total}</span>
                             <span>{convertDate(invoice.due_date)}</span>
                           </span>
-                        </Link>
+                        </a>
                       </Button>
                     </SheetClose>
                   ))}
