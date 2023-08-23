@@ -11,6 +11,14 @@ export async function getInvoices() {
  return invoices.items as Invoice[];
 }
 
+export async function getInvoice(key: string) {
+ const db = Base("invoices");
+
+ const invoice = await db.get(key);
+
+ return invoice as Invoice;
+}
+
 export async function updateInvoice(
  key: string,
  updatedFields: Partial<Invoice>
@@ -28,44 +36,47 @@ export async function updateInvoice(
  return updatedInvoice;
 }
 
-export async function updateStatus(key: string | undefined, status: "draft" | "paid") {
-  if (!key) {
-    return;
-  }
+export async function updateStatus(
+ key: string | undefined,
+ status: "draft" | "paid"
+) {
+ if (!key) {
+  return;
+ }
 
-  const db = Base("invoices");
+ const db = Base("invoices");
 
-  const invoice = await db.get(key);
+ const invoice = await db.get(key);
 
-  if (!invoice) {
-    return;
-  }
+ if (!invoice) {
+  return;
+ }
 
-  const draft = invoice.draft
-  const paid = invoice.paid
+ const draft = invoice.draft;
+ const paid = invoice.paid;
 
-  if (status === "draft") {
-    await db.update({ draft: !draft, paid: false }, key);
-  } else if (status === "paid") {
-    await db.update({ paid: !paid }, key);
-  }
+ if (status === "draft") {
+  await db.update({ draft: !draft, paid: false }, key);
+ } else if (status === "paid") {
+  await db.update({ paid: !paid }, key);
+ }
 
-  revalidatePath("/")
+ revalidatePath("/");
 }
 
 export async function deleteInvoice(key: string | undefined) {
-  if (!key) {
-    return;
-  }
+ if (!key) {
+  return;
+ }
 
-  const db = Base("invoices");
+ const db = Base("invoices");
 
-  const invoice = await db.get(key);
+ const invoice = await db.get(key);
 
-  if (!invoice) {
-    return;
-  }
+ if (!invoice) {
+  return;
+ }
 
-  await db.delete(key);
-  revalidatePath("/")
+ await db.delete(key);
+ revalidatePath("/");
 }
