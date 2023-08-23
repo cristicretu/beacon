@@ -138,3 +138,24 @@ export async function createContact(contact: Contact) {
 
  revalidatePath("/");
 }
+
+export async function updateField(
+ key: string | undefined,
+ name: string,
+ field: string
+) {
+ if (!key) {
+  return;
+ }
+
+ const db = Base("invoices");
+
+ const invoice = await db.get(key);
+
+ if (!invoice) {
+  return;
+ }
+
+ await db.update({ [field]: name }, key);
+ revalidatePath("/");
+}

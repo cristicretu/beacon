@@ -8,8 +8,15 @@ import { Label } from "./ui/label";
 import { InvoiceGrid } from "./invoice-grid";
 import { getContacts } from "@/lib/actions";
 import { Suspense } from "react";
+import { InvoiceField } from "./invoice-metadata";
 
-export async function InvoiceView({ invoice, editable }: { invoice: Invoice, editable: boolean }) {
+export async function InvoiceView({
+  invoice,
+  editable,
+}: {
+  invoice: Invoice;
+  editable: boolean;
+}) {
   const contacts = await getContacts();
 
   return (
@@ -29,10 +36,7 @@ export async function InvoiceView({ invoice, editable }: { invoice: Invoice, edi
           {/* Invoice Details */}
           <div className="flex flex-col">
             {editable ? (
-              <div>
-                <Label htmlFor="email">Invoice Name</Label>
-                <Input type="text" id="name" placeholder={invoice.name} className="max-w-[144px]" />
-              </div>
+              <InvoiceField invoice={invoice} field="name" />
             ) : (
               <h1 className="text-neutral-950 dark:text-neutral-100">
                 {invoice.name}
@@ -58,7 +62,11 @@ export async function InvoiceView({ invoice, editable }: { invoice: Invoice, edi
       </div>
 
       {/* Note */}
-      {invoice.notes && <p>{invoice.notes}</p>}
-    </div >
+      {editable ? (
+        <InvoiceField invoice={invoice} field="notes" />
+      ) : invoice.notes ? (
+        <p>{invoice.notes}</p>
+      ) : null}
+    </div>
   );
 }
