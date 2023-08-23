@@ -52,3 +52,20 @@ export async function updateStatus(key: string | undefined, status: "draft" | "p
 
   revalidatePath("/")
 }
+
+export async function deleteInvoice(key: string | undefined) {
+  if (!key) {
+    return;
+  }
+
+  const db = Base("invoices");
+
+  const invoice = await db.get(key);
+
+  if (!invoice) {
+    return;
+  }
+
+  await db.delete(key);
+  revalidatePath("/")
+}

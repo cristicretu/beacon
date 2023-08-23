@@ -14,26 +14,22 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Invoice } from "@/lib/types";
 import { useTransition } from "react";
-import { updateStatus } from "@/lib/actions";
+import { deleteInvoice, updateStatus } from "@/lib/actions";
 
 export function InvoiceSettings({invoice} : {invoice : Invoice}) {
   let [isPending, startTransition] = useTransition()
 
   return (<div className="w-full flex justify-end">
   {invoice.draft === true ? (
-     <form>
       <Button variant="ghost" onClick={() => startTransition(() => updateStatus(invoice.key, "draft"))}>
         <Check className="mr-2 h-4 w-4" />
          Publish
       </Button> 
-     </form>
   ) : invoice.draft === false && invoice.paid === false ? (
-    <form>
       <Button variant="ghost" onClick={() => startTransition(() => updateStatus(invoice.key, "paid"))}>
       <Check className="mr-2 h-4 w-4" />
         Mark Paid
     </Button>
-    </form>
   ) : (
     <Badge variant="success">Paid</Badge>
   )}
@@ -63,7 +59,7 @@ export function InvoiceSettings({invoice} : {invoice : Invoice}) {
     </DropdownMenuGroup>
     <DropdownMenuSeparator />
     <DropdownMenuGroup>
-      <DropdownMenuItem>
+      <DropdownMenuItem onClick={() => startTransition(() => deleteInvoice(invoice.key))}>
         <Trash className="mr-2 h-4 w-4" />
         <span>Delete</span>
       </DropdownMenuItem>
