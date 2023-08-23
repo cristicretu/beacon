@@ -1,6 +1,7 @@
 "use server";
 import { Base } from "deta";
 import { Invoice } from "./types";
+import { revalidatePath } from "next/cache";
 
 export async function getInvoices() {
  const db = Base("invoices");
@@ -19,10 +20,35 @@ export async function updateInvoice(
  const invoice = await db.get(key);
 
  if (!invoice) {
-  return null;
+  return;
  }
 
  const updatedInvoice = await db.update(updatedFields, key);
 
  return updatedInvoice;
+}
+
+export async function updateStatus(key: string | undefined, status: "draft" | "paid") {
+  if (!key) {
+    return;
+  }
+
+  const db = Base("invoices");
+
+  const invoice = await db.get(key);
+
+  if (!invoice) {
+    return;
+  }
+
+  const draft = invoice.draft
+  const paid = invoice.paid
+
+  if (status === "draft") {
+    await db.update({ draft: !draft, paid: false }, key);
+  } else if (status === "paid") {
+    await db.update({ paid: !paid }, key);
+  }
+
+  revalidatePath("/")
 }
