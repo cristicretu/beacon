@@ -1,6 +1,6 @@
 export type Invoice = {
  key?: string;
- number: number;
+ name: string;
  issue_date: string;
  due_date: string;
  from: {

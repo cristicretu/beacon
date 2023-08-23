@@ -80,3 +80,24 @@ export async function deleteInvoice(key: string | undefined) {
  await db.delete(key);
  revalidatePath("/");
 }
+
+export async function updateDate(
+ key: string | undefined,
+ date: string,
+ field: "issue_date" | "due_date"
+) {
+ if (!key) {
+  return;
+ }
+
+ const db = Base("invoices");
+
+ const invoice = await db.get(key);
+
+ if (!invoice) {
+  return;
+ }
+
+ await db.update({ [field]: date }, key);
+ revalidatePath("/");
+}

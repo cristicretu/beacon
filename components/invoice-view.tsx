@@ -2,10 +2,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TableItems } from "./table-items";
 import { TableSubtotal } from "./table-subtotal";
 import { Invoice } from "@/lib/types";
-import { convertDate } from "@/lib/utils";
 import { InvoiceSettings } from "./invoice-settings";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { InvoiceGrid } from "./invoice-grid";
 
-export function InvoiceView({ invoice }: { invoice: Invoice }) {
+export function InvoiceView({ invoice, editable }: { invoice: Invoice, editable: boolean }) {
   return (
     <div className="flex flex-col space-y-16 text-neutral-500 relative">
       <InvoiceSettings invoice={invoice} />
@@ -17,23 +19,25 @@ export function InvoiceView({ invoice }: { invoice: Invoice }) {
           <AvatarFallback>DS</AvatarFallback>
         </Avatar>
 
-        <div className="flex flex-col space-y-4 md:flex-row md:justify-between md:items-start md:space-y-0">
+        <div className="flex flex-col space-y-4 md:flex-row md:justify-between md:items-start md:space-y-0 gap-16">
           {/* Invoice Details */}
           <div className="flex flex-col">
-            <h1 className="text-neutral-950 dark:text-neutral-100">
-              Invoice {invoice.number}
-            </h1>
+            {editable ? (
+              <div>
+                <Label htmlFor="email">Invoice Name</Label>
+                <Input type="text" id="name" placeholder={invoice.name} className="max-w-[144px]" />
+              </div>
+            ) : (
+              <h1 className="text-neutral-950 dark:text-neutral-100">
+                {invoice.name}
+              </h1>
+            )}
             <p>{invoice.to.name}</p>
             <span>${invoice.total}</span>
           </div>
 
           {/* Issue Date, Due Date, From, To Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-32 gap-y-8">
-            <Card description="Issue Date" text={convertDate(invoice.issue_date)} />
-            <Card description="Due Date" text={convertDate(invoice.due_date)} />
-            <Card description="From" text={invoice.from.name} />
-            <Card description="To" text={invoice.to.name} />
-          </div>
+          <InvoiceGrid invoice={invoice} editable={editable} />
         </div>
       </div>
 
@@ -47,7 +51,7 @@ export function InvoiceView({ invoice }: { invoice: Invoice }) {
 
       {/* Note */}
       {invoice.notes && <p>{invoice.notes}</p>}
-    </div>
+    </div >
   );
 }
 

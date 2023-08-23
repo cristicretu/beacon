@@ -7,10 +7,6 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
@@ -58,7 +54,7 @@ export default async function RootLayout({
                       <Button variant="ghost" className="text-neutral-500 font-normal flex items-center justify-between min-w-[300px] py-8" asChild>
                         <Link href={`/invoice/${invoice.key}`}>
                           <span className="flex flex-col items-start space-y-0.5">
-                            <span className="text-neutral-900 dark:text-neutral-100">Invoice {invoice.number}</span>
+                            <span className="text-neutral-900 dark:text-neutral-100">{invoice.name}</span>
                             <span>{invoice.to.name}</span>
                           </span>
 
