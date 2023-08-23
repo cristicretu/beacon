@@ -25,6 +25,7 @@ export type Contact = {
  iban?: string;
  swift?: string;
  currency?: string;
+ contact_since?: string;
 };
 
 export type InvoiceItem = {

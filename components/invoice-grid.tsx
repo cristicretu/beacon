@@ -2,16 +2,17 @@
 
 import { Contact, Invoice } from "@/lib/types";
 import { convertDate } from "@/lib/utils";
-import React from "react";
-
 import { DatePicker } from "./date-picker";
 import { updateContact, updateDate } from "@/lib/actions";
 import { Combobox } from "./combobox";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+import { CalendarDays } from "lucide-react";
 
-
-
-export async function InvoiceGrid({ invoice, editable, contacts }: { invoice: Invoice, editable: boolean, contacts: Contact[] }) {
-
+export function InvoiceGrid({ invoice, editable, contacts }: { invoice: Invoice, editable: boolean, contacts: Contact[] }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-32 gap-y-8">
       <div className="flex flex-col text-neutral-500">
@@ -34,15 +35,32 @@ export async function InvoiceGrid({ invoice, editable, contacts }: { invoice: In
         {editable ? (
           <Combobox contacts={contacts} selectedContact={invoice.from} setContact={(contact) => updateContact(invoice.key, contact, "from")} />
         ) : (
-          <p className="text-neutral-500 flex flex-col items-start">
-            <span className="text-neutral-900 dark:text-neutral-100">{invoice.from.name}</span>
-            {invoice.from.city && (<span>{invoice.from.city},{invoice.from.state ? invoice.from.state : ''}</span>)}
-            <span>{invoice.from.zip ? invoice.from.zip : ''},{invoice.from.country ? invoice.from.country : ''}</span>
-            <span>{invoice.from.vatId}</span>
-            <span>{invoice.from.iban}</span>
-            <span>{invoice.from.swift}</span>
-            <span>{invoice.from.currency}</span>
-          </p>
+          <HoverCard>
+            <HoverCardTrigger asChild>
+              <span className="text-neutral-900 dark:text-neutral-100 w-fit border-b-2 border-transparent hover:border-neutral-500/50 transition-all">@{invoice.from.name}</span>
+            </HoverCardTrigger>
+            <HoverCardContent className="w-80">
+              <div className="flex justify-between space-x-4">
+                <div className="text-neutral-500 space-y-1 flex flex-col text-sm">
+                  <h4 className="text-neutral-900 dark:text-neutral-100 font-semibold">@{invoice.from.name}</h4>
+                  {invoice.from.city && (<span>{invoice.from.city},{invoice.from.state ? invoice.from.state : ''}</span>)}
+                  <span>{invoice.from.zip ? invoice.from.zip : ''}, {invoice.from.country ? invoice.from.country : ''}</span>
+                  <span>Vat ID: {invoice.from.vatId}</span>
+                  <span>IBAN: {invoice.from.iban}</span>
+                  <span>Swift: {invoice.from.swift}</span>
+                  <span>Currency: {invoice.from.currency}</span>
+                  {invoice.from.contact_since && (
+                    <div className="flex items-center pt-2">
+                      <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
+                      <span className="text-xs text-muted-foreground">
+                        Contact since {convertDate(invoice.from.contact_since)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
         )
         }
       </div>
@@ -51,15 +69,32 @@ export async function InvoiceGrid({ invoice, editable, contacts }: { invoice: In
         <p>To</p>
         {editable ? (<Combobox contacts={contacts} selectedContact={invoice.to} setContact={(contact) => updateContact(invoice.key, contact, "to")} />
         ) : (
-          <p className="text-neutral-500 flex flex-col items-start">
-            <span className="text-neutral-900 dark:text-neutral-100">{invoice.to.name}</span>
-            {invoice.to.city && (<span>{invoice.to.city},{invoice.to.state ? invoice.to.state : ''}</span>)}
-            <span>{invoice.to.zip ? invoice.to.zip : ''},{invoice.to.country ? invoice.to.country : ''}</span>
-            <span>{invoice.to.vatId}</span>
-            <span>{invoice.to.iban}</span>
-            <span>{invoice.to.swift}</span>
-            <span>{invoice.to.currency}</span>
-          </p>
+          <HoverCard>
+            <HoverCardTrigger asChild>
+              <span className="text-neutral-900 dark:text-neutral-100 border-b-2 w-fit border-transparent hover:border-neutral-500/50 transition-all">@{invoice.to.name}</span>
+            </HoverCardTrigger>
+            <HoverCardContent className="w-80">
+              <div className="flex justify-between space-x-4">
+                <div className="text-neutral-500 space-y-1 flex flex-col text-sm">
+                  <h4 className="text-neutral-900 dark:text-neutral-100 font-semibold">@{invoice.to.name}</h4>
+                  {invoice.to.city && (<span>{invoice.to.city},{invoice.to.state ? invoice.to.state : ''}</span>)}
+                  <span>{invoice.to.zip ? invoice.to.zip : ''}, {invoice.to.country ? invoice.to.country : ''}</span>
+                  <span>Vat ID: {invoice.to.vatId}</span>
+                  <span>IBAN: {invoice.to.iban}</span>
+                  <span>Swift: {invoice.to.swift}</span>
+                  <span>Currency: {invoice.to.currency}</span>
+                  {invoice.to.contact_since && (
+                    <div className="flex items-center pt-2">
+                      <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
+                      <span className="text-xs text-muted-foreground">
+                        Contact since {convertDate(invoice.to.contact_since)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
 
         )}
       </div>
