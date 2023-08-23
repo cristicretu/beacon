@@ -1,6 +1,6 @@
 "use server";
 import { Base } from "deta";
-import { Invoice } from "./types";
+import { Contact, Invoice } from "./types";
 import { revalidatePath } from "next/cache";
 
 export async function getInvoices() {
@@ -9,6 +9,30 @@ export async function getInvoices() {
  const invoices = await db.fetch();
 
  return invoices.items as Invoice[];
+}
+
+export async function getContacts() {
+ const db = Base("contacts");
+
+ const contacts = await db.fetch();
+
+ const deta = {
+  name: "Deta",
+  city: "San Francisco",
+  state: "CA",
+  zip: "94103",
+  country: "USA",
+  vatId: "123456789",
+  iban: "123456789",
+  swift: "123456789",
+  currency: "USD",
+ };
+
+ if (contacts.count === 0) {
+  await db.put(deta);
+ }
+
+ return contacts.items as Contact[];
 }
 
 export async function getInvoice(key: string) {

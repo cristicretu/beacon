@@ -3,22 +3,8 @@ export type Invoice = {
  name: string;
  issue_date: string;
  due_date: string;
- from: {
-  name: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  country: string;
- };
- to: {
-  name: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  country: string;
- };
+ from: Contact;
+ to: Contact;
  items: InvoiceItem[];
  notes: string;
  paid: boolean;
@@ -26,6 +12,19 @@ export type Invoice = {
  total: number;
  tax?: number;
  discount?: number;
+};
+
+export type Contact = {
+ name: string;
+ address?: string;
+ city?: string;
+ state?: string;
+ zip?: string;
+ country?: string;
+ vatId?: string;
+ iban?: string;
+ swift?: string;
+ currency?: string;
 };
 
 export type InvoiceItem = {

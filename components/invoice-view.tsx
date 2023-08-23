@@ -6,8 +6,12 @@ import { InvoiceSettings } from "./invoice-settings";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { InvoiceGrid } from "./invoice-grid";
+import { getContacts } from "@/lib/actions";
 
-export function InvoiceView({ invoice, editable }: { invoice: Invoice, editable: boolean }) {
+export async function InvoiceView({ invoice, editable }: { invoice: Invoice, editable: boolean }) {
+
+  const contacts = await getContacts();
+
   return (
     <div className="flex flex-col space-y-16 text-neutral-500 relative">
       <InvoiceSettings invoice={invoice} />
@@ -37,7 +41,7 @@ export function InvoiceView({ invoice, editable }: { invoice: Invoice, editable:
           </div>
 
           {/* Issue Date, Due Date, From, To Grid */}
-          <InvoiceGrid invoice={invoice} editable={editable} />
+          <InvoiceGrid invoice={invoice} editable={editable} contacts={contacts} />
         </div>
       </div>
 
