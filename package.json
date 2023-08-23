@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "deploy": "next build && mkdir -p dist/standalone/public/_next && cp -r dist/static dist/standalone/public/_next/"
+    "lint": "next lint"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.3",
