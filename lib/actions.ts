@@ -16,22 +16,6 @@ export async function getContacts() {
 
  const contacts = await db.fetch();
 
- const deta = {
-  name: "Deta",
-  city: "San Francisco",
-  state: "CA",
-  zip: "94103",
-  country: "USA",
-  vatId: "123456789",
-  iban: "123456789",
-  swift: "123456789",
-  currency: "USD",
- };
-
- if (contacts.count === 0) {
-  await db.put(deta);
- }
-
  return contacts.items as Contact[];
 }
 
@@ -123,5 +107,26 @@ export async function updateDate(
  }
 
  await db.update({ [field]: date }, key);
+ revalidatePath("/");
+}
+
+export async function updateContact(
+ key: string | undefined,
+ contact: Contact,
+ field: "from" | "to"
+) {
+ if (!key) {
+  return;
+ }
+
+ const db = Base("invoices");
+
+ const invoice = await db.get(key);
+
+ if (!invoice) {
+  return;
+ }
+
+ await db.update({ [field]: contact }, key);
  revalidatePath("/");
 }

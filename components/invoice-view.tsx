@@ -7,6 +7,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { InvoiceGrid } from "./invoice-grid";
 import { getContacts } from "@/lib/actions";
+import { revalidatePath } from "next/cache";
 
 export async function InvoiceView({ invoice, editable }: { invoice: Invoice, editable: boolean }) {
 
