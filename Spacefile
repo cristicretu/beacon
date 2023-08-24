@@ -3,5 +3,11 @@ v: 0
 micros:
  - name: beacon
    src: ./
-   engine: next
+   engine: custom
    primary: true
+   commands:
+    - pnpm install
+    - pnpm build
+   run: "node .next/standalone/server.js"
+   include:
+    - ".next"
