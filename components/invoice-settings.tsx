@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "./ui/button";
-import { Check, CircleDashed, MoreHorizontal, Share, Trash, Wallet } from "lucide-react"
+import { Check, CircleDashed, CopyPlus, MoreHorizontal, Share, Trash, Wallet } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,10 +14,14 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Invoice } from "@/lib/types";
 import { useTransition } from "react";
-import { deleteInvoice, updateStatus } from "@/lib/actions";
+import { deleteInvoice, duplicateInvoice, updateStatus } from "@/lib/actions";
+import { useRouter } from 'next/navigation'
+
 
 export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
   let [isPending, startTransition] = useTransition()
+  const router = useRouter()
+
 
   return (<div className="w-full flex justify-end">
     {invoice.draft === true ? (
@@ -46,11 +50,15 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => startTransition(() => updateStatus(invoice.key, "draft"))}>
             <CircleDashed className="mr-2 h-4 w-4" />
-            <span>Toggle Draft</span>
+            <span>{invoice.draft === false ? 'Toggle Draft Mode' : 'Publish Draft'}</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => startTransition(() => updateStatus(invoice.key, "paid"))}>
             <Wallet className="mr-2 h-4 w-4" />
             <span>Toggle Paid</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => startTransition(() => duplicateInvoice(invoice.key))}>
+            <CopyPlus className="mr-2 h-4 w-4" />
+            <span>Duplicate</span>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Share className="mr-2 h-4 w-4" />
@@ -59,7 +67,10 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => startTransition(() => deleteInvoice(invoice.key))}>
+          <DropdownMenuItem onClick={() => startTransition(() => {
+            router.push('/')
+            deleteInvoice(invoice.key)
+          })}>
             <Trash className="mr-2 h-4 w-4" />
             <span>Delete</span>
           </DropdownMenuItem>

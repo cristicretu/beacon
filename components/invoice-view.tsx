@@ -27,14 +27,14 @@ export async function InvoiceView({
 
       {/* Top part */}
       <div className="flex flex-col space-y-8">
-        <Avatar>
+        {/* <Avatar>
           <AvatarImage src="https://github.com/sha" alt="myself" />
           <AvatarFallback>DS</AvatarFallback>
-        </Avatar>
+        </Avatar> */}
 
         <div className="flex flex-col space-y-4 md:flex-row md:justify-between md:items-start md:space-y-0 gap-16">
           {/* Invoice Details */}
-          <div className="flex flex-col">
+          <div className="flex flex-col space-y-1">
             {editable ? (
               <InvoiceField invoice={invoice} field="name" />
             ) : (
@@ -54,7 +54,7 @@ export async function InvoiceView({
       </div>
 
       {/* Invoice Items */}
-      <TableItems items={invoice.items} invoice_key={invoice.key} />
+      <TableItems items={invoice.items} invoice_key={invoice.key} editable={editable} />
 
       {/* Total View */}
       <div className="flex justify-end w-full">

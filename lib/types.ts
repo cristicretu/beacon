@@ -6,12 +6,19 @@ export type Invoice = {
  from: Contact;
  to: Contact;
  items: InvoiceItem[];
+ sub_items: InvoiceSubItem[];
  notes: string;
  paid: boolean;
  draft: boolean;
  total: number;
- tax?: number;
- discount?: number;
+};
+
+export type InvoiceItem = {
+ name: string;
+ description: string;
+ quantity: number;
+ price: number;
+ id: string;
 };
 
 export type Contact = {
@@ -28,10 +35,8 @@ export type Contact = {
  contact_since?: string;
 };
 
-export type InvoiceItem = {
+export type InvoiceSubItem = {
  name: string;
- description: string;
- quantity: number;
  price: number;
  id: string;
 };

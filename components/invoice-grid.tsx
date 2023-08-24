@@ -33,7 +33,7 @@ export function InvoiceGrid({ invoice, editable, contacts }: { invoice: Invoice,
       </div>
 
       <div className="flex flex-col text-neutral-500">
-        <p>From</p>
+        {Object.keys(invoice.from).length !== 0 || editable ? (<p>From</p>) : null}
         {editable ? (
           <div className="flex space-x-1">
             <Combobox contacts={contacts} selectedContact={invoice.from} setContact={(contact) => updateContact(invoice.key, contact, "from")} />
@@ -43,10 +43,10 @@ export function InvoiceGrid({ invoice, editable, contacts }: { invoice: Invoice,
               </Button>
             </NewContact>
           </div>
-        ) : (
+        ) : Object.keys(invoice.from).length !== 0 && (
           <HoverCard>
             <HoverCardTrigger asChild>
-              <span className="text-neutral-900 dark:text-neutral-100 w-fit border-b-2 border-transparent hover:border-neutral-500/50 transition-all">@{invoice.from.name}</span>
+              <span className="text-neutral-900 dark:text-neutral-100 w-fit border-b-2 border-transparent hover:border-neutral-500/50 transition-all cursor-cell">@{invoice.from.name}</span>
             </HoverCardTrigger>
             <HoverCardContent className="w-80">
               <div className="flex justify-between space-x-4">
@@ -76,19 +76,19 @@ export function InvoiceGrid({ invoice, editable, contacts }: { invoice: Invoice,
       </div>
 
       <div className="flex flex-col text-neutral-500">
-        <p>To</p>
+        {Object.keys(invoice.to).length !== 0 || editable ? (<p>to</p>) : null}
         {editable ? (<div className="flex space-x-1">
           <Combobox contacts={contacts} selectedContact={invoice.to} setContact={(contact) => updateContact(invoice.key, contact, "to")} />
           <NewContact>
-            <Button variant='outline' size='icon'>
+            <Button variant='outline' size='icon' >
               <Plus className="h-4 w-4" />
             </Button>
           </NewContact>
         </div>
-        ) : (
+        ) : Object.keys(invoice.to).length !== 0 && (
           <HoverCard>
             <HoverCardTrigger asChild>
-              <span className="text-neutral-900 dark:text-neutral-100 border-b-2 w-fit border-transparent hover:border-neutral-500/50 transition-all">@{invoice.to.name}</span>
+              <span className="text-neutral-900 dark:text-neutral-100 border-b-2 w-fit border-transparent hover:border-neutral-500/50 transition-all cursor-cell">@{invoice.to.name}</span>
             </HoverCardTrigger>
             <HoverCardContent className="w-80">
               <div className="flex justify-between space-x-4">

@@ -54,7 +54,7 @@ export function Combobox({ contacts, selectedContact, setContact }: { contacts: 
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[280px] justify-between"
         >
           {value
             ? contacts.find((contact) => contact.name === value)?.name

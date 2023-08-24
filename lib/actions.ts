@@ -1,6 +1,6 @@
 "use server";
 import { Base } from "deta";
-import { Contact, Invoice } from "./types";
+import { Contact, Invoice, InvoiceItem } from "./types";
 import { revalidatePath } from "next/cache";
 
 export async function getInvoices() {
@@ -157,5 +157,88 @@ export async function updateField(
  }
 
  await db.update({ [field]: name }, key);
+ revalidatePath("/");
+}
+
+export async function createInvoice() {
+ const db = Base("invoices");
+
+ const newInvoice = await db.put({
+  name: "New Invoice",
+  issue_date: new Date().toISOString().split("T")[0],
+  due_date: new Date(new Date().getTime() + 14 * 24 * 60 * 60 * 1000)
+   .toISOString()
+   .split("T")[0],
+  from: {},
+  to: {},
+  items: [],
+  sub_items: [
+   {
+    name: "Subtotal",
+    price: 0,
+    id: "subtotal",
+   },
+  ],
+  notes: "",
+  paid: false,
+  draft: true,
+  total: 0,
+ });
+
+ revalidatePath("/");
+}
+
+export async function duplicateInvoice(key: string | undefined) {
+ if (!key) {
+  return;
+ }
+
+ const db = Base("invoices");
+
+ const invoice = await db.get(key);
+
+ if (!invoice) {
+  return;
+ }
+
+ // Remove the key from the invoice
+ delete invoice.key;
+
+ const newInvoice = await db.put({
+  ...invoice,
+  name: `${invoice.name} - Copy`,
+  draft: true,
+  paid: false,
+ });
+
+ revalidatePath("/");
+}
+
+export async function updateItem(
+ key: string | undefined,
+ item: InvoiceItem,
+ id: string
+) {
+ if (!key) {
+  return;
+ }
+
+ const db = Base("invoices");
+
+ const invoice = await db.get(key);
+
+ if (!invoice) {
+  return;
+ }
+
+ const items = invoice.items as InvoiceItem[];
+
+ const index = items.findIndex((i) => i.id === id);
+
+ if (index !== -1) {
+  items[index] = item;
+
+  await db.update({ items }, key);
+ }
  revalidatePath("/");
 }

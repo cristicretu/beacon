@@ -10,11 +10,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
-import { Menu, Plus } from "lucide-react";
+import { Menu } from "lucide-react";
 import { getInvoices } from "@/lib/actions";
 import { convertDate } from "@/lib/utils";
-import { ModeToggle } from "@/components/change-theme";
 import Link from "next/link";
+import { Suspense } from "react";
+import { Settings } from "@/components/settings";
+import { InvoiceNav } from "@/components/invoice-nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,10 +32,6 @@ export default async function RootLayout({
 }) {
   const invoices = await getInvoices();
 
-  const paidInvoices = invoices.filter((invoice) => invoice.paid);
-  const draftInvoices = invoices.filter((invoice) => invoice.draft && !invoice.paid);
-  const publishedInvoices = invoices.filter((invoice) => !invoice.draft && !invoice.paid);
-
   return (
     <html lang="en">
       <body
@@ -45,12 +43,6 @@ export default async function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div>
-            <div className="absolute top-4 left-1/2 transform -translate-x-1/2">
-              <Button variant="default">
-                <Plus className="h-4 w-4 mr-2" />
-                Compose
-              </Button>
-            </div>
             <Sheet>
               <SheetTrigger asChild className="absolute top-4 left-4">
                 <Button variant="outline" size="icon">
@@ -58,75 +50,7 @@ export default async function RootLayout({
                 </Button>
               </SheetTrigger>
               <SheetContent side="left">
-                <div className="flex flex-col space-y-4 w-fit">
-
-                  {publishedInvoices.length > 0 && <div className="text-neutral-500 font-semibold mb-2">Published</div>}
-                  {publishedInvoices.map((invoice) => (
-                    <SheetClose asChild key={invoice.key}>
-                      <Button variant="ghost" className="text-neutral-500 font-normal flex items-center justify-between min-w-[300px] py-8" asChild>
-                        <a
-                          href={`/invoice/${invoice.key}`}>
-                          <span className="flex flex-col items-start space-y-0.5">
-                            <span className="text-neutral-900 dark:text-neutral-100">{invoice.name}</span>
-                            <span>{invoice.to.name}</span>
-                          </span>
-
-                          <span className="flex flex-col items-end space-y-0.5">
-                            <span className="text-neutral-900 dark:text-neutral-100">${invoice.total}</span>
-                            <span>{convertDate(invoice.due_date)}</span>
-                          </span>
-                        </a>
-                      </Button>
-                    </SheetClose>
-                  ))}
-
-                  {draftInvoices.length > 0 && <div className="text-neutral-500 font-semibold mb-2">Drafts</div>}
-                  {draftInvoices.map((invoice) => (
-                    <SheetClose asChild key={invoice.key}>
-                      <Button variant="ghost" className="text-neutral-500 font-normal flex items-center justify-between min-w-[300px] py-8" asChild>
-                        <a
-                          href={`/invoice/${invoice.key}`}>
-                          <span className="flex flex-col items-start space-y-0.5">
-                            <span className="text-neutral-900 dark:text-neutral-100">{invoice.name}</span>
-                            <span>{invoice.to.name}</span>
-                          </span>
-
-                          <span className="flex flex-col items-end space-y-0.5">
-                            <span className="text-neutral-900 dark:text-neutral-100">${invoice.total}</span>
-                            <span>{convertDate(invoice.due_date)}</span>
-                          </span>
-                        </a>
-                      </Button>
-                    </SheetClose>
-                  ))}
-
-                  {paidInvoices.length > 0 && <div className="text-neutral-500 font-semibold mb-2">Paid</div>}
-                  {paidInvoices.map((invoice) => (
-                    <SheetClose asChild key={invoice.key}>
-                      <Button variant="ghost" className="text-neutral-500 font-normal flex items-center justify-between min-w-[300px] py-8" asChild>
-                        <Link
-                          href={`/invoice/[slug]`}
-                          as={`/invoice/${invoice.key}`}
-                        >
-                          <span className="flex flex-col items-start space-y-0.5">
-                            <span className="text-neutral-900 dark:text-neutral-100">{invoice.name}</span>
-                            <span>{invoice.to.name}</span>
-                          </span>
-
-                          <span className="flex flex-col items-end space-y-0.5">
-                            <span className="text-neutral-900 dark:text-neutral-100">${invoice.total}</span>
-                            <span>{convertDate(invoice.due_date)}</span>
-                          </span>
-                        </Link>
-                      </Button>
-                    </SheetClose>
-                  ))}
-
-                  <div className="px-4">
-                    <ModeToggle />
-                  </div>
-
-                </div>
+                <InvoiceNav invoices={invoices} />
               </SheetContent>
             </Sheet>
             <div>{children}</div>
