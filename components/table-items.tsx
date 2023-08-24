@@ -13,6 +13,8 @@ import { Base } from "deta";
 import { revalidatePath } from "next/cache";
 import { InvoiceField } from "./invoice-metadata";
 import { TableField } from "./table-field";
+import { TableNumberField } from "./table-number-field";
+import { cn } from "@/lib/utils";
 
 export function TableItems({
   items: items,
@@ -74,7 +76,7 @@ export function TableItems({
       }
       <TableBody>
         {items.map((item, id) => (
-          <TableRow key={id}>
+          <TableRow key={id} className="">
             <TableCell className="flex flex-col">
               {editable ? (
                 <>
@@ -88,11 +90,25 @@ export function TableItems({
               )
               }
             </TableCell>
-            <TableCell>{item.quantity}</TableCell>
-            <TableCell className="text-right flex flex-col">
-              <span className="text-neutral-900 dark:text-neutral-100">
-                ${item.price}
-              </span>
+            <TableCell>
+              {editable ? (
+                <TableNumberField invoiceKey={invoice_key} item={item} field="quantity" />
+              ) : (
+                <span>{item.quantity}</span>
+              )}
+              <span className="invisible">hidden</span>
+            </TableCell>
+            <TableCell className={cn(
+              "text-right",
+              !editable && "flex flex-col"
+            )}>
+              {editable ? (
+                <TableNumberField invoiceKey={invoice_key} item={item} field="price" />
+              ) : (
+                <span className="text-neutral-900 dark:text-neutral-100">
+                  ${item.price}
+                </span>
+              )}
               <span className="text-sm">${item.price / item.quantity}</span>
             </TableCell>
           </TableRow>
