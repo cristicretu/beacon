@@ -82,7 +82,7 @@ export function TableItems({
               {editable ? (
                 <>
                   <TableField invoiceKey={invoice_key} item={item} />
-                  <DeleteItem invoiceKey={invoice_key} id={item.id} />
+                  <DeleteItem invoiceKey={invoice_key} id={item.id} field="item" />
                 </>
               ) : (
                 <>
@@ -112,7 +112,7 @@ export function TableItems({
                 <span className="text-neutral-900 dark:text-neutral-100">
                   <CurrencySplit
                     currency={currency}
-                    total={item.price}
+                    total={Math.round((item.price * item.quantity) * 100) / 100}
                     className="flex-row-reverse"
                   />
                 </span>
@@ -120,7 +120,7 @@ export function TableItems({
               <span className="text-sm">
                 <CurrencySplit
                   currency={currency}
-                  total={Math.round((item.price * item.quantity) * 100) / 100}
+                  total={item.price}
                   className="flex-row-reverse"
                 />
               </span>

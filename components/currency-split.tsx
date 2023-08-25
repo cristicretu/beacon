@@ -13,7 +13,7 @@ export function CurrencySplit({
   const isCurrencyDollar = currencySymbol(currency) === "$";
 
   return (
-    <div className={cn("flex space-x-0.5 ", className)}>
+    <div className={cn("flex gap-0.5", className)}>
       {(isCurrencyDollar && !className) || (!isCurrencyDollar && className) ? (
         <>
           <span>{currencySymbol(currency)}</span>

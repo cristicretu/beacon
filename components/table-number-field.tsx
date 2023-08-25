@@ -4,7 +4,7 @@ import { InvoiceItem } from "@/lib/types";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { useState } from "react";
-import { updateItem } from "@/lib/actions";
+import { updateItem, updateTotal } from "@/lib/actions";
 
 export function TableNumberField({
   invoiceKey,
@@ -31,6 +31,7 @@ export function TableNumberField({
         className="max-w-[144px]"
         onBlur={() => {
           updateItem(invoiceKey, { ...item, [field === 'quantity' ? 'quantity' : 'price']: value }, item.id);
+          updateTotal(invoiceKey);
         }}
       />
     </div>

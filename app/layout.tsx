@@ -44,7 +44,7 @@ export default async function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div>
             <Sheet>
-              <SheetTrigger asChild className="absolute top-4 left-4">
+              <SheetTrigger asChild className="fixed top-4 left-4">
                 <Button variant="outline" size="icon">
                   <Menu className="h-4 w-4" />
                 </Button>

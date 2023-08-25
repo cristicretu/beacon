@@ -20,7 +20,7 @@ export function InvoiceNav({ invoices }: { invoices: Invoice[] }) {
 
   return (
 
-    <div className="flex flex-col space-y-4 w-fit">
+    <div className="flex flex-col space-y-4 w-full">
 
       {publishedInvoices.length > 0 && <div className="text-neutral-500 font-semibold mb-2">Published</div>}
       {publishedInvoices.map((invoice) => (
@@ -54,7 +54,7 @@ export function InvoiceNav({ invoices }: { invoices: Invoice[] }) {
               </span>
 
               <span className="flex flex-col items-end space-y-0.5">
-                <span className="text-neutral-900 dark:text-neutral-100">${invoice.total}</span>
+                <span className="text-neutral-900 dark:text-neutral-100"><CurrencySplit currency={invoice.currency} total={invoice.total} /></span>
                 <span>{convertDate(invoice.due_date)}</span>
               </span>
             </a>
@@ -76,7 +76,7 @@ export function InvoiceNav({ invoices }: { invoices: Invoice[] }) {
               </span>
 
               <span className="flex flex-col items-end space-y-0.5">
-                <span className="text-neutral-900 dark:text-neutral-100">${invoice.total}</span>
+                <span className="text-neutral-900 dark:text-neutral-100"><CurrencySplit currency={invoice.currency} total={invoice.total} /></span>
                 <span>{convertDate(invoice.due_date)}</span>
               </span>
             </Link>
@@ -84,7 +84,7 @@ export function InvoiceNav({ invoices }: { invoices: Invoice[] }) {
         </SheetClose>
       ))}
 
-      <div className="px-4 flex items-center justify-between">
+      <div className="px-4 flex items-center justify-between w-full">
         <Suspense>
           <Settings />
         </Suspense>

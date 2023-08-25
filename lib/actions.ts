@@ -1,7 +1,8 @@
 "use server";
 import { Base } from "deta";
-import { Contact, Invoice, InvoiceItem } from "./types";
+import { Contact, Invoice, InvoiceItem, InvoiceSubItem } from "./types";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function getInvoices() {
  const db = Base("invoices");
@@ -86,7 +87,7 @@ export async function deleteInvoice(key: string | undefined) {
  }
 
  await db.delete(key);
- revalidatePath("/");
+ redirect("/");
 }
 
 export async function updateDate(
@@ -205,13 +206,29 @@ export async function duplicateInvoice(key: string | undefined) {
  // Remove the key from the invoice
  delete invoice.key;
 
+ // Find the number at the end of the oldName, if any
+ const oldName = invoice.name as string;
+
+ const match = oldName.match(/(\d+)$/);
+ let newName;
+
+ if (match) {
+  const number = parseInt(match[1]);
+  const incrementedNumber = number + 1;
+  const paddedNumber = incrementedNumber
+   .toString()
+   .padStart(match[1].length, "0");
+  newName = oldName.replace(match[0], paddedNumber);
+ } else {
+  newName = `${oldName} 01`;
+ }
+
  const newInvoice = await db.put({
   ...invoice,
-  name: `${invoice.name} - Copy`,
+  name: newName,
   draft: true,
   paid: false,
  });
-
  revalidatePath("/");
 }
 
@@ -270,5 +287,93 @@ export async function deleteItem(key: string | undefined, id: string) {
 
   await db.update({ items }, key);
  }
+ revalidatePath("/");
+}
+
+export async function updateSubItem(
+ key: string | undefined,
+ sub_item: InvoiceSubItem,
+ id: string
+) {
+ if (!key) {
+  return;
+ }
+
+ const db = Base("invoices");
+
+ const invoice = await db.get(key);
+
+ if (!invoice) {
+  return;
+ }
+
+ const items = invoice.sub_items as InvoiceSubItem[];
+
+ const index = items.findIndex((i) => i.id === id);
+
+ if (index !== -1) {
+  items[index] = sub_item;
+
+  await db.update({ sub_items: items }, key);
+ }
+ revalidatePath("/");
+}
+
+export async function deleteSubItem(key: string | undefined, id: string) {
+ if (!key) {
+  return;
+ }
+
+ if (!id) {
+  return;
+ }
+
+ const db = Base("invoices");
+
+ const invoice = await db.get(key);
+
+ if (!invoice) {
+  return;
+ }
+
+ const items = invoice.sub_items as InvoiceSubItem[];
+
+ const index = items.findIndex((i) => i.id === id);
+
+ if (index !== -1) {
+  items.splice(index, 1);
+
+  await db.update({ sub_items: items }, key);
+ }
+ revalidatePath("/");
+}
+
+export async function updateTotal(key: string | undefined) {
+ if (!key) {
+  return;
+ }
+
+ const db = Base("invoices");
+
+ const invoice = await db.get(key);
+
+ if (!invoice) {
+  return;
+ }
+
+ const items = invoice.items as InvoiceItem[];
+ const sub_items = invoice.sub_items as InvoiceSubItem[];
+
+ let total = 0;
+
+ items.forEach((item) => {
+  total += item.price * item.quantity;
+ });
+
+ sub_items.forEach((item) => {
+  total += item.price;
+ });
+
+ await db.update({ total }, key);
  revalidatePath("/");
 }

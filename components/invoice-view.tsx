@@ -66,7 +66,7 @@ export async function InvoiceView({
 
       {/* Total View */}
       <div className="flex justify-end w-full">
-        <TableSubtotal />
+        <TableSubtotal invoice={invoice} editable={editable} />
       </div>
 
       {/* Note */}

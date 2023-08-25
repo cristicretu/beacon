@@ -2,11 +2,13 @@
 
 import { Trash } from "lucide-react";
 import { Button } from "./ui/button";
-import { deleteItem } from "@/lib/actions";
+import { deleteItem, deleteSubItem } from "@/lib/actions";
 
-export function DeleteItem({ invoiceKey, id }: { invoiceKey: string | undefined, id: string }) {
+export function DeleteItem({ invoiceKey, id, field }: { invoiceKey: string | undefined, id: string, field: "item" | "sub_item" }) {
   return (
-    <Button variant='destructive' size='icon' onClick={() => deleteItem(invoiceKey, id)} className="mt-4">
+    <Button variant='destructive' size='icon' onClick={() => {
+      field === 'item' ? deleteItem(invoiceKey, id) : deleteSubItem(invoiceKey, id)
+    }} className="mt-4">
       <Trash className='h-4 w-4' />
     </Button>
   )
