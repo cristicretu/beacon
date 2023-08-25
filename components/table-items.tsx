@@ -7,23 +7,26 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { InvoiceItem } from "@/lib/types";
+import { Currency, InvoiceItem } from "@/lib/types";
 import { Button } from "./ui/button";
 import { Base } from "deta";
 import { revalidatePath } from "next/cache";
-import { InvoiceField } from "./invoice-metadata";
 import { TableField } from "./table-field";
 import { TableNumberField } from "./table-number-field";
 import { cn } from "@/lib/utils";
+import { CurrencySplit } from "./currency-split";
+import { DeleteItem } from "./delete-button";
 
 export function TableItems({
   items: items,
   invoice_key,
   editable,
+  currency,
 }: {
   items: InvoiceItem[];
   invoice_key?: string;
-  editable: boolean
+  editable: boolean;
+  currency: Currency;
 }) {
   async function addItem() {
     "use server";
@@ -63,17 +66,15 @@ export function TableItems({
           </form>
         </TableCaption>
       )}
-      {
-        (items.length > 0 || editable) && (
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[70%]">Item</TableHead>
-              <TableHead>Qty</TableHead>
-              <TableHead className="text-right">Amt</TableHead>
-            </TableRow>
-          </TableHeader>
-        )
-      }
+      {(items.length > 0 || editable) && (
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[70%]">Item</TableHead>
+            <TableHead>Qty</TableHead>
+            <TableHead className="text-right">Amt</TableHead>
+          </TableRow>
+        </TableHeader>
+      )}
       <TableBody>
         {items.map((item, id) => (
           <TableRow key={id} className="">
@@ -81,39 +82,52 @@ export function TableItems({
               {editable ? (
                 <>
                   <TableField invoiceKey={invoice_key} item={item} />
+                  <DeleteItem invoiceKey={invoice_key} id={item.id} />
                 </>
               ) : (
-                <><span className="text-neutral-900 dark:text-neutral-100">
-                  {item.name}
-                </span>
-                  <span className="text-sm">{item.description}</span></>
-              )
-              }
+                <>
+                  <span className="text-neutral-900 dark:text-neutral-100">
+                    {item.name}
+                  </span>
+                  <span className="text-sm">{item.description}</span>
+                </>
+              )}
             </TableCell>
             <TableCell>
               {editable ? (
-                <TableNumberField invoiceKey={invoice_key} item={item} field="quantity" />
+                <TableNumberField
+                  invoiceKey={invoice_key}
+                  item={item}
+                  field="quantity"
+                />
               ) : (
                 <span>{item.quantity}</span>
               )}
               <span className="invisible">hidden</span>
             </TableCell>
-            <TableCell className={cn(
-              "text-right",
-              !editable && "flex flex-col"
-            )}>
+            <TableCell className={cn("text-right", !editable && "flex flex-col")}>
               {editable ? (
                 <TableNumberField invoiceKey={invoice_key} item={item} field="price" />
               ) : (
                 <span className="text-neutral-900 dark:text-neutral-100">
-                  ${item.price}
+                  <CurrencySplit
+                    currency={currency}
+                    total={item.price}
+                    className="flex-row-reverse"
+                  />
                 </span>
               )}
-              <span className="text-sm">${item.price / item.quantity}</span>
+              <span className="text-sm">
+                <CurrencySplit
+                  currency={currency}
+                  total={Math.round((item.price * item.quantity) * 100) / 100}
+                  className="flex-row-reverse"
+                />
+              </span>
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
-    </Table >
+    </Table>
   );
 }

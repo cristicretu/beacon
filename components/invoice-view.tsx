@@ -9,6 +9,9 @@ import { InvoiceGrid } from "./invoice-grid";
 import { getContacts } from "@/lib/actions";
 import { Suspense } from "react";
 import { InvoiceField } from "./invoice-metadata";
+import { currencySymbol } from "@/lib/currencies";
+import { cn } from "@/lib/utils";
+import { CurrencySplit } from "./currency-split";
 
 export async function InvoiceView({
   invoice,
@@ -43,7 +46,7 @@ export async function InvoiceView({
               </h1>
             )}
             <p>{invoice.to.name}</p>
-            <span>${invoice.total}</span>
+            <CurrencySplit currency={invoice.currency} total={invoice.total} />
           </div>
 
           {/* Issue Date, Due Date, From, To Grid */}
@@ -54,7 +57,12 @@ export async function InvoiceView({
       </div>
 
       {/* Invoice Items */}
-      <TableItems items={invoice.items} invoice_key={invoice.key} editable={editable} />
+      <TableItems
+        items={invoice.items}
+        invoice_key={invoice.key}
+        editable={editable}
+        currency={invoice.currency}
+      />
 
       {/* Total View */}
       <div className="flex justify-end w-full">

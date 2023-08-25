@@ -17,12 +17,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Contact } from "@/lib/types"
+import { Currency } from "@/lib/types"
+import currencyList, { currencySymbol } from "@/lib/currencies"
 
 
-export function Combobox({ contacts, selectedContact, setContact }: { contacts: Contact[], selectedContact: Contact, setContact: (contact: Contact) => void }) {
+export function ComboboxCurrency({ currency, setCurrency }: { currency: Currency, setCurrency: (contact: Currency) => void }) {
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState(selectedContact.name)
+  const [value, setValue] = React.useState(currency)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -34,32 +35,33 @@ export function Combobox({ contacts, selectedContact, setContact }: { contacts: 
           className="w-[280px] justify-between"
         >
           {value
-            ? contacts.find((contact) => contact.name === value)?.name
-            : "Select contact..."}
+            ? currencyList.find((currency) => currency === value)
+            : "Select currency..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0 max-h-[200px] overflow-hidden">
         <Command>
-          <CommandInput placeholder="Search contacts..." />
+          <CommandInput placeholder="Search currencies..." />
           <CommandEmpty>No contact found.</CommandEmpty>
           <CommandGroup>
-            {contacts.map((contact) => (
+            {currencyList.map((currency) => (
               <CommandItem
-                key={contact.name}
+                key={currency}
                 onSelect={() => {
-                  setContact(contact)
-                  setValue(contact.name)
+                  setCurrency(currency as Currency)
+                  setValue(currency as Currency)
                   setOpen(false)
                 }}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === contact.name ? "opacity-100" : "opacity-0"
+                    value === currency ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {contact.name}
+                {currency}{" "}
+                <span className="opacity-50 ml-2 text-xs">{currencySymbol(currency)}</span>
               </CommandItem>
             ))}
           </CommandGroup>

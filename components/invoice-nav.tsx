@@ -8,6 +8,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { usePathname } from "next/navigation";
 import { Settings } from "./settings";
+import { currencySymbol } from "@/lib/currencies";
+import { CurrencySplit } from "./currency-split";
 
 export function InvoiceNav({ invoices }: { invoices: Invoice[] }) {
   const paidInvoices = invoices.filter((invoice) => invoice.paid);
@@ -32,7 +34,7 @@ export function InvoiceNav({ invoices }: { invoices: Invoice[] }) {
               </span>
 
               <span className="flex flex-col items-end space-y-0.5">
-                <span className="text-neutral-900 dark:text-neutral-100">${invoice.total}</span>
+                <span className="text-neutral-900 dark:text-neutral-100"><CurrencySplit currency={invoice.currency} total={invoice.total} /></span>
                 <span>{convertDate(invoice.due_date)}</span>
               </span>
             </a>

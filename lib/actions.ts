@@ -183,6 +183,7 @@ export async function createInvoice() {
   paid: false,
   draft: true,
   total: 0,
+  currency: "EUR",
  });
 
  revalidatePath("/");
@@ -237,6 +238,35 @@ export async function updateItem(
 
  if (index !== -1) {
   items[index] = item;
+
+  await db.update({ items }, key);
+ }
+ revalidatePath("/");
+}
+
+export async function deleteItem(key: string | undefined, id: string) {
+ if (!key) {
+  return;
+ }
+
+ if (!id) {
+  return;
+ }
+
+ const db = Base("invoices");
+
+ const invoice = await db.get(key);
+
+ if (!invoice) {
+  return;
+ }
+
+ const items = invoice.items as InvoiceItem[];
+
+ const index = items.findIndex((i) => i.id === id);
+
+ if (index !== -1) {
+  items.splice(index, 1);
 
   await db.update({ items }, key);
  }
