@@ -173,13 +173,7 @@ export async function createInvoice() {
   from: {},
   to: {},
   items: [],
-  sub_items: [
-   {
-    name: "Subtotal",
-    price: 0,
-    id: "subtotal",
-   },
-  ],
+  sub_items: [],
   notes: "",
   paid: false,
   draft: true,

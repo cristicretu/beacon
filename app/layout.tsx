@@ -37,7 +37,7 @@ export default async function RootLayout({
       <body
         className={cn(
           inter.className,
-          'h-full, min-h-screen, relative w-full',
+          'h-full min-h-screen relative w-full',
           "flex min-h-screen items-center justify-center p-8 sm:p-12 md:p-24",
         )}
       >

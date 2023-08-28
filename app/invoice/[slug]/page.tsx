@@ -8,7 +8,7 @@ export default async function InvoicePage({ params }: { params: { slug: string }
     return <div>Not found</div>
   }
 
-  return <main className="mx-auto max-w-4xl w-[676px]">
+  return <main className="mx-auto max-w-3xl md:max-w-4xl md:w-[676px]">
     <InvoiceView invoice={invoice} editable={invoice.draft === true} />
   </main>
 }

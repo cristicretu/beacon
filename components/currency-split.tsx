@@ -12,16 +12,21 @@ export function CurrencySplit({
 }) {
   const isCurrencyDollar = currencySymbol(currency) === "$";
 
+  const formattedTotal = total.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
   return (
     <div className={cn("flex gap-0.5", className)}>
       {(isCurrencyDollar && !className) || (!isCurrencyDollar && className) ? (
         <>
           <span>{currencySymbol(currency)}</span>
-          <span>{total}</span>
+          <span>{formattedTotal}</span>
         </>
       ) : (
         <>
-          <span>{total}</span>
+          <span>{formattedTotal}</span>
           <span>{currencySymbol(currency)}</span>
         </>
       )}

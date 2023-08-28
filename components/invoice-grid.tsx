@@ -24,6 +24,7 @@ export function InvoiceGrid({
   editable: boolean;
   contacts: Contact[];
 }) {
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-32 gap-y-8">
       <div className="flex flex-col text-neutral-500">
