@@ -38,14 +38,15 @@ export default async function RootLayout({
         className={cn(
           inter.className,
           'h-full min-h-screen relative w-full',
-          "flex min-h-screen items-center justify-center p-8 sm:p-12 md:p-24",
+          "px-4 py-8 md:py-24 print:px-0 print:py-0",
+          // "flex min-h-screen items-center justify-center",
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div>
             <Sheet>
-              <SheetTrigger asChild className="fixed top-4 left-4">
-                <Button variant="outline" size="icon">
+              <SheetTrigger asChild className="fixed top-4 left-4 print:hidden">
+                <Button variant="default" size="icon" className="z-50">
                   <Menu className="h-4 w-4" />
                 </Button>
               </SheetTrigger>

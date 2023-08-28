@@ -58,7 +58,7 @@ export function TableItems({
   }
 
   return (
-    <Table className="text-neutral-500 ">
+    <Table className="text-neutral-500 print:text-xs">
       {editable && (
         <TableCaption>
           <form action={addItem}>
@@ -89,7 +89,7 @@ export function TableItems({
                   <span className="text-neutral-900 dark:text-neutral-100">
                     {item.name}
                   </span>
-                  <span className="text-sm">{item.description}</span>
+                  <span className="text-sm print:text-[11px]">{item.description}</span>
                 </>
               )}
             </TableCell>
@@ -103,13 +103,12 @@ export function TableItems({
               ) : (
                 <span>{item.quantity}</span>
               )}
-              <span className="invisible">hidden</span>
             </TableCell>
             <TableCell className={cn("text-right", !editable && "flex flex-col")}>
               {editable ? (
                 <TableNumberField invoiceKey={invoice_key} item={item} field="price" />
               ) : (
-                <span className="text-neutral-900 dark:text-neutral-100">
+                <span className="text-neutral-900 dark:text-neutral-100 print:font-semibold">
                   <CurrencySplit
                     currency={currency}
                     total={Math.round((item.price * item.quantity) * 100) / 100}
@@ -117,7 +116,7 @@ export function TableItems({
                   />
                 </span>
               )}
-              <span className="text-sm">
+              <span className="text-sm print:text-[11px]">
                 <CurrencySplit
                   currency={currency}
                   total={item.price}

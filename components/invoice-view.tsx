@@ -23,7 +23,7 @@ export async function InvoiceView({
   const contacts = await getContacts();
 
   return (
-    <div className="flex flex-col space-y-16 text-neutral-500 relative">
+    <div className="flex flex-col space-y-16 print:space-y-12 text-neutral-500 relative print:text-xs text-sm sm:text-md">
       <Suspense fallback={<div>Loading...</div>}>
         <InvoiceSettings invoice={invoice} />
       </Suspense>
@@ -35,13 +35,13 @@ export async function InvoiceView({
           <AvatarFallback>DS</AvatarFallback>
         </Avatar> */}
 
-        <div className="flex flex-col space-y-4 md:flex-row md:justify-between md:items-start md:space-y-0 gap-16">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start md:space-y-0 gap-16 print:gap-8">
           {/* Invoice Details */}
           <div className="flex flex-col space-y-1">
             {editable ? (
               <InvoiceField invoice={invoice} field="name" />
             ) : (
-              <h1 className="text-neutral-950 dark:text-neutral-100">
+              <h1 className="text-neutral-950 dark:text-neutral-100 print:font-semibold">
                 {invoice.name}
               </h1>
             )}

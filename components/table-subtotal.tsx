@@ -56,7 +56,7 @@ export function TableSubtotal({
   }
 
   return (
-    <Table className={cn("text-neutral-500 max-w-[400px]")}>
+    <Table className={cn("text-neutral-500 max-w-[400px]", "print:text-xs")}>
       {editable && (
         <TableCaption>
           <form action={addItem}>
@@ -107,14 +107,14 @@ export function TableSubtotal({
         ))}
         <TableRow key={invoice.total}>
           <TableCell
-            className={cn("text-neutral-900 dark:text-neutral-100", "py-1.5")}
+            className={cn("text-neutral-900 dark:text-neutral-100 print:font-semibold", "py-1.5")}
           >
             Total
           </TableCell>
           <TableCell
             className={cn(
               "text-right",
-              "text-neutral-900 dark:text-neutral-100",
+              "text-neutral-900 dark:text-neutral-100 print:font-semibold",
               "py-1.5 pl-32"
             )}
           >
