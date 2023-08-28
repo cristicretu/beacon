@@ -77,12 +77,14 @@ export function TableItems({
       )}
       <TableBody>
         {items.map((item, id) => (
-          <TableRow key={id} className="">
-            <TableCell className="flex flex-col">
+          <TableRow key={id} className="group">
+            <TableCell className="flex flex-col relative">
               {editable ? (
                 <>
                   <TableField invoiceKey={invoice_key} item={item} />
-                  <DeleteItem invoiceKey={invoice_key} id={item.id} field="item" />
+                  <div className="block lg:invisible lg:group-hover:visible lg:absolute lg:top-[18px] lg:scale-75 lg:transform lg:left-36">
+                    <DeleteItem invoiceKey={invoice_key} id={item.id} field="item" />
+                  </div>
                 </>
               ) : (
                 <>

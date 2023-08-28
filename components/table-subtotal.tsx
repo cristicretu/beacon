@@ -76,13 +76,13 @@ export function TableSubtotal({
           </TableCell>
         </TableRow>
         {subtotals.map((item, id) => (
-          <TableRow key={id}>
+          <TableRow key={id} className="group">
             <TableCell className={cn("py-1.5 relative")}>
               {editable ? (
                 <>
 
                   <TableFieldSubtotal invoiceKey={invoice.key} sub_item={item} />
-                  <div className="absolute -top-2 scale-75 transform -left-10">
+                  <div className="absolute -top-2 scale-75 transform left-32 lg:invisible lg:group-hover:visible">
                     {editable && (
                       <DeleteItem invoiceKey={invoice.key} id={item.id} field="sub_item" />
                     )}
