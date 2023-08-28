@@ -52,6 +52,8 @@ export function ContactEditor({
       }
   );
 
+  const [error, setError] = useState("");
+
   const handleInputChange = (field: string, value: string) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -68,6 +70,9 @@ export function ContactEditor({
           <DialogDescription>
             Create a new contact to use in your invoices. You can edit this
             information later.
+          </DialogDescription>
+          <DialogDescription>
+            {error}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4 edit-button">
@@ -98,14 +103,15 @@ export function ContactEditor({
                   value={formData[field]}
                   onChange={(e) => handleInputChange(field, e.target.value)}
                   className="col-span-3 edit-button"
+                  required={field === "name" ? true : false}
                 />
               </div>
             );
           })}
         </div>
-        <DialogFooter className="edit-button">
-          <DialogClose asChild>
-            <div className="flex justify-between items-center w-full edit-button">
+        <DialogFooter className="">
+          <DialogClose>
+            <div className="flex justify-between items-center w-full edit-button gap-4">
               {contact && (
                 <Button
                   type="submit"
@@ -122,6 +128,10 @@ export function ContactEditor({
               <Button
                 type="submit"
                 onClick={() => {
+                  if (!formData.name) {
+                    setError("Name is required");
+                    return;
+                  }
                   contact
                     ? updateContactInfo(contact.key, formData)
                     : createContact(formData);

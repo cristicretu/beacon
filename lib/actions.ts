@@ -135,6 +135,10 @@ export async function updateContact(
 export async function createContact(contact: Contact) {
  const db = Base("contacts");
 
+ if (!contact.name) {
+  return;
+ }
+
  const newContact = await db.put(contact);
 
  revalidatePath("/");
