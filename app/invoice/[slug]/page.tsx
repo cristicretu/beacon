@@ -19,7 +19,7 @@ export default async function InvoicePage({
         "bg-neutral-50 dark:bg-neutral-900",
         "print:!mx-auto print:!px-12 print:!py-8",
         "-mx-4 px-6 py-8 rounded-sm  max-w-3xl",
-        "md:max-w-4xl md:px-24 md:py-12 md:rounded-xl md:mx-auto"
+        "md:max-w-4xl md:px-16 lg:px-24 md:py-12 md:rounded-xl md:mx-auto"
       )}
     >
       <InvoiceView invoice={invoice} editable={invoice.draft === true} />

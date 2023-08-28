@@ -32,7 +32,7 @@ export function ComboboxCurrency({ currency, setCurrency }: { currency: Currency
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[280px] justify-between"
+          className="w-[280px] justify-between edit-button"
         >
           {value
             ? currencyList.find((currency) => currency === value)
@@ -40,10 +40,10 @@ export function ComboboxCurrency({ currency, setCurrency }: { currency: Currency
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0 max-h-[200px] overflow-hidden">
+      <PopoverContent className="w-[200px] p-0 max-h-[200px] overflow-auto edit-button">
         <Command>
           <CommandInput placeholder="Search currencies..." />
-          <CommandEmpty>No contact found.</CommandEmpty>
+          <CommandEmpty>No currency found.</CommandEmpty>
           <CommandGroup>
             {currencyList.map((currency) => (
               <CommandItem

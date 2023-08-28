@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/hover-card";
 import { CalendarDays, Plus } from "lucide-react";
 import { Button } from "./ui/button";
-import { NewContact } from "./new-contact";
+import { ContactEditor } from "./contact-editor";
 import { ComboboxCurrency } from "./combobox-currency";
 
 export function InvoiceGrid({
@@ -68,11 +68,11 @@ export function InvoiceGrid({
               selectedContact={invoice.from}
               setContact={(contact) => updateContact(invoice.key, contact, "from")}
             />
-            <NewContact>
+            <ContactEditor>
               <Button variant="outline" size="icon">
                 <Plus className="h-4 w-4" />
               </Button>
-            </NewContact>
+            </ContactEditor>
           </div>
         ) : (
           Object.keys(invoice.from).length !== 0 && (
@@ -151,11 +151,11 @@ export function InvoiceGrid({
               selectedContact={invoice.to}
               setContact={(contact) => updateContact(invoice.key, contact, "to")}
             />
-            <NewContact>
+            <ContactEditor>
               <Button variant="outline" size="icon">
                 <Plus className="h-4 w-4" />
               </Button>
-            </NewContact>
+            </ContactEditor>
           </div>
         ) : (
           Object.keys(invoice.to).length !== 0 && (

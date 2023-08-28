@@ -371,3 +371,81 @@ export async function updateTotal(key: string | undefined) {
  await db.update({ total }, key);
  revalidatePath("/");
 }
+
+export async function updateContactInfo(
+ key: string | undefined,
+ contact: Contact
+) {
+ console.log("aici taica");
+ if (!key) {
+  return;
+ }
+
+ const db = Base("contacts");
+
+ const contactInfo = await db.get(key);
+
+ if (!contactInfo) {
+  return;
+ }
+
+ delete contact.key;
+
+ await db.update(contact, key);
+ revalidatePath("/");
+}
+
+export async function deleteContact(key: string | undefined) {
+ if (!key) {
+  return;
+ }
+
+ const db = Base("contacts");
+
+ const contactInfo = await db.get(key);
+
+ if (!contactInfo) {
+  return;
+ }
+
+ await db.delete(key);
+ revalidatePath("/");
+}
+
+export async function checkDeletedContactActive(
+ contactKey: string | undefined
+) {
+ if (!contactKey) {
+  return;
+ }
+
+ const db = Base("invoices");
+
+ const invoices = await db.fetch();
+
+ if (!invoices) {
+  return;
+ }
+
+ for (const invoice of invoices.items as Invoice[]) {
+  if (!invoice.key) continue;
+  if (invoice.from || invoice.to) {
+   let from = invoice.from;
+   const to = invoice.to as Contact;
+
+   if (from) {
+    if (from.key === contactKey) {
+     await db.update({ from: { deleted: true } }, invoice.key);
+    }
+   }
+
+   if (to) {
+    if (to.key === contactKey) {
+     await db.update({ to: { deleted: true } }, invoice.key);
+    }
+   }
+  }
+ }
+
+ revalidatePath("/");
+}

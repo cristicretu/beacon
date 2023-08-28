@@ -23,6 +23,7 @@ export type InvoiceItem = {
 };
 
 export type Contact = {
+ key?: string;
  name: string;
  address?: string;
  city?: string;
