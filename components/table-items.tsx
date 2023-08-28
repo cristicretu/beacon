@@ -103,6 +103,7 @@ export function TableItems({
               ) : (
                 <span>{item.quantity}</span>
               )}
+              <span className="invisible">x</span>
             </TableCell>
             <TableCell className={cn("text-right", !editable && "flex flex-col")}>
               {editable ? (

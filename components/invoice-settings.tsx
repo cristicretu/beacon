@@ -29,6 +29,10 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
   let [isPending, startTransition] = useTransition();
   const router = useRouter();
 
+  function copyLink() {
+    navigator.clipboard.writeText(`${window.location.origin}/invoice/${invoice.key}`);
+  }
+
   return (
     <div className="w-full flex justify-end print:hidden">
       {invoice.draft === true ? (
@@ -66,7 +70,7 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
             >
               <CircleDashed className="mr-2 h-4 w-4" />
               <span>
-                {invoice.draft === false ? "Toggle Draft Mode" : "Publish Draft"}
+                {invoice.draft === false ? "Toggle Edit Mode" : "Publish Invoice"}
               </span>
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -81,7 +85,9 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
               <CopyPlus className="mr-2 h-4 w-4" />
               <span>Duplicate</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => startTransition(() => copyLink())}
+            >
               <Share className="mr-2 h-4 w-4" />
               <span>Share</span>
             </DropdownMenuItem>

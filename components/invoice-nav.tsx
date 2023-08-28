@@ -21,9 +21,12 @@ export function InvoiceNav({ invoices }: { invoices: Invoice[] }) {
     return invoiceName.includes(searchName);
   });
 
-  const paidInvoices = filteredInvoices.filter((invoice) => invoice.paid);
-  const draftInvoices = filteredInvoices.filter((invoice) => invoice.draft && !invoice.paid);
-  const publishedInvoices = filteredInvoices.filter((invoice) => !invoice.draft && !invoice.paid);
+  const paidInvoices = filteredInvoices.filter((invoice) => invoice.paid)
+    .sort((a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime());
+  const draftInvoices = filteredInvoices.filter((invoice) => invoice.draft && !invoice.paid)
+    .sort((a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime());
+  const publishedInvoices = filteredInvoices.filter((invoice) => !invoice.draft && !invoice.paid)
+    .sort((a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime());
 
   const pathname = usePathname().split('/')[2]
 
@@ -32,11 +35,12 @@ export function InvoiceNav({ invoices }: { invoices: Invoice[] }) {
   return (
 
     <div className="flex flex-col space-y-4 w-full overflow-y-auto">
-      <div className="px-2 mt-4">
+      <div className="mt-6 px-2">
         <Input
           placeholder="Search..."
           value={name}
           onChange={(e) => setName(e.target.value)}
+          className="rounded-full"
         />
       </div>
 
@@ -108,7 +112,7 @@ export function InvoiceNav({ invoices }: { invoices: Invoice[] }) {
         ))}
       </ScrollArea>
 
-      <div className="px-4 flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full">
         <Suspense>
           <Settings />
         </Suspense>

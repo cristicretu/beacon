@@ -11,9 +11,9 @@ export function Settings() {
 
   return (
     <>
-      <Button variant="default" onClick={() => startTransition(() => createInvoice())}>
+      <Button variant="default" onClick={() => startTransition(() => createInvoice())} className="rounded-full">
         <Plus className="h-4 w-4 mr-2" />
-        Compose
+        New Invoice
       </Button>
 
       <ModeToggle />

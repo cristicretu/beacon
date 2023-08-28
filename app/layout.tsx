@@ -46,7 +46,7 @@ export default async function RootLayout({
           <div>
             <Sheet>
               <SheetTrigger asChild className="fixed top-4 left-4 print:hidden">
-                <Button variant="default" size="icon" className="z-50">
+                <Button variant="default" size="icon" className="z-50 rounded-full">
                   <Menu className="h-4 w-4" />
                 </Button>
               </SheetTrigger>
