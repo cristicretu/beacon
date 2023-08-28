@@ -9,6 +9,7 @@ export async function getInvoices() {
 
  const invoices = await db.fetch();
 
+ revalidatePath("/");
  return invoices.items as Invoice[];
 }
 
@@ -17,6 +18,7 @@ export async function getContacts() {
 
  const contacts = await db.fetch();
 
+ revalidatePath("/");
  return contacts.items as Contact[];
 }
 
@@ -25,6 +27,7 @@ export async function getInvoice(key: string) {
 
  const invoice = await db.get(key);
 
+ revalidatePath("/");
  return invoice as Invoice;
 }
 
@@ -186,6 +189,7 @@ export async function createInvoice() {
  });
 
  revalidatePath("/");
+ redirect(`/invoice/${newInvoice!.key}`);
 }
 
 export async function duplicateInvoice(key: string | undefined) {

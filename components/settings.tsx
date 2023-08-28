@@ -6,8 +6,9 @@ import { Button } from "./ui/button";
 import { useTransition } from "react";
 import { createInvoice } from "@/lib/actions";
 
-export function Settings() {
+export function Settings({ theme = true }: { theme?: boolean }) {
   let [isPending, startTransition] = useTransition()
+
 
   return (
     <>
@@ -16,7 +17,7 @@ export function Settings() {
         New Invoice
       </Button>
 
-      <ModeToggle />
+      {theme && <ModeToggle />}
     </>
   );
 }

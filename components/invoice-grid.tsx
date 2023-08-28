@@ -143,7 +143,7 @@ export function InvoiceGrid({
       </div>
 
       <div className="flex flex-col text-neutral-500">
-        {Object.keys(invoice.to).length !== 0 || editable ? <p>to</p> : null}
+        {Object.keys(invoice.to).length !== 0 || editable ? <p>To</p> : null}
         {editable ? (
           <div className="flex space-x-1">
             <Combobox
