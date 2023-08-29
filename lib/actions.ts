@@ -234,6 +234,7 @@ export async function duplicateInvoice(key: string | undefined) {
   paid: false,
  });
  revalidatePath("/");
+ redirect(`/invoice/${newInvoice!.key}`);
 }
 
 export async function updateItem(
@@ -260,6 +261,9 @@ export async function updateItem(
  if (index !== -1) {
   items[index] = item;
 
+  items[index].quantity = items[index].quantity || 0;
+  items[index].name = items[index].name || " ";
+  items[index].description = items[index].description || " ";
   items[index].price = items[index].price || 0;
 
   await db.update({ items }, key);

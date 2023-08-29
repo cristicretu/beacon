@@ -25,13 +25,17 @@ import { Invoice } from "@/lib/types";
 import { useTransition } from "react";
 import { deleteInvoice, duplicateInvoice, updateStatus } from "@/lib/actions";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
   let [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const { toast } = useToast();
 
   function copyLink() {
-    navigator.clipboard.writeText(`${window.location.origin}/invoice/${invoice.key}`);
+    navigator.clipboard.writeText(
+      `${window.location.origin}/invoice/${invoice.key}`
+    );
   }
 
   return (
@@ -39,7 +43,12 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
       {invoice.draft === true ? (
         <Button
           variant="ghost"
-          onClick={() => startTransition(() => updateStatus(invoice.key, "draft"))}
+          onClick={() => {
+            startTransition(() => updateStatus(invoice.key, "draft"));
+            toast({
+              description: "Your invoice has been published.",
+            });
+          }}
         >
           <Check className="mr-2 h-4 w-4" />
           Publish
@@ -47,7 +56,12 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
       ) : invoice.draft === false && invoice.paid === false ? (
         <Button
           variant="ghost"
-          onClick={() => startTransition(() => updateStatus(invoice.key, "paid"))}
+          onClick={() => {
+            startTransition(() => updateStatus(invoice.key, "paid"));
+            toast({
+              description: "Hooray! Your invoice is paid!",
+            });
+          }}
         >
           <Check className="mr-2 h-4 w-4" />
           Mark Paid
@@ -67,7 +81,9 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem
-              onClick={() => startTransition(() => updateStatus(invoice.key, "draft"))}
+              onClick={() => {
+                startTransition(() => updateStatus(invoice.key, "draft"));
+              }}
             >
               <CircleDashed className="mr-2 h-4 w-4" />
               <span>
@@ -75,27 +91,42 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
               </span>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => startTransition(() => updateStatus(invoice.key, "paid"))}
+              onClick={() => {
+                if (invoice.paid === false) {
+                  toast({
+                    description: "Hooray! Your invoice is paid!",
+                  });
+                }
+                startTransition(() => updateStatus(invoice.key, "paid"));
+              }}
             >
               <Wallet className="mr-2 h-4 w-4" />
               <span>Toggle Paid</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => startTransition(() => duplicateInvoice(invoice.key))}
+              onClick={() => {
+                startTransition(() => duplicateInvoice(invoice.key));
+                toast({
+                  description: `${invoice.name} has been duplicated.`,
+                });
+              }}
             >
               <CopyPlus className="mr-2 h-4 w-4" />
               <span>Duplicate</span>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => startTransition(() => copyLink())}
+              onClick={() => {
+                startTransition(() => copyLink());
+                toast({
+                  description: "Link copied to clipboard.",
+                });
+              }}
             >
               <Share className="mr-2 h-4 w-4" />
               <span>Share</span>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => startTransition(() => window.print())}
-            >
+            <DropdownMenuItem onClick={() => startTransition(() => window.print())}>
               <Printer className="mr-2 h-4 w-4" />
               <span>Print</span>
             </DropdownMenuItem>
@@ -103,12 +134,15 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem
-              onClick={() =>
+              onClick={() => {
+                toast({
+                  description: `${invoice.name} has been deleted.`,
+                });
                 startTransition(() => {
                   router.push("/");
                   deleteInvoice(invoice.key);
-                })
-              }
+                });
+              }}
             >
               <Trash className="mr-2 h-4 w-4" />
               <span>Delete</span>
