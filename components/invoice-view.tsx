@@ -16,17 +16,21 @@ import { CurrencySplit } from "./currency-split";
 export async function InvoiceView({
   invoice,
   editable,
+  isAuth,
 }: {
   invoice: Invoice;
   editable: boolean;
+  isAuth: boolean;
 }) {
   const contacts = await getContacts();
 
   return (
     <div className="flex flex-col space-y-16 print:space-y-12 text-neutral-500 relative print:text-xs text-sm sm:text-md">
-      <Suspense fallback={<div>Loading...</div>}>
-        <InvoiceSettings invoice={invoice} />
-      </Suspense>
+      {isAuth && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <InvoiceSettings invoice={invoice} />
+        </Suspense>
+      )}
 
       {/* Top part */}
       <div className="flex flex-col space-y-8">

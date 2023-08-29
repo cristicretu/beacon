@@ -7,6 +7,7 @@ export default async function Home() {
   const contacts = (await getContacts()) as any;
 
   const simplifiedArray = invoices
+    .filter((invoice: any) => invoice.paid === true)
     .map(({ currency, total }: { currency: any; total: any }) => ({
       currency,
       total,
@@ -23,10 +24,14 @@ export default async function Home() {
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
               <h1 className="text-neutral-900 dark:text-neutral-100 font-semibold text-2xl">
-                <CurrencySplit
-                  currency={simplifiedArray[0].currency}
-                  total={simplifiedArray[0].total}
-                />
+                {simplifiedArray.length > 0 ? (
+                  <CurrencySplit
+                    currency={simplifiedArray[0].currency}
+                    total={simplifiedArray[0].total}
+                  />
+                ) : (
+                  "0"
+                )}
               </h1>
               <p>Money Earned</p>
             </div>

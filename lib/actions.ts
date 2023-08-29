@@ -3,6 +3,8 @@ import { Base } from "deta";
 import { Contact, Invoice, InvoiceItem, InvoiceSubItem } from "./types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import { v4 as uuidv4 } from "uuid";
 
 export async function getInvoices() {
  const db = Base("invoices");
@@ -456,4 +458,47 @@ export async function checkDeletedContactActive(
  }
 
  revalidatePath("/");
+}
+
+export async function setCookie(setter: boolean) {
+ const uuid = uuidv4();
+
+ if (setter) {
+  const auth = cookies().get("auth");
+  if (!auth) {
+   const db = Base("auth");
+
+   const oldAuth = await db.fetch();
+
+   if (oldAuth.count > 0) {
+    for (const auth of oldAuth.items) {
+     if (!auth.key) continue;
+     await db.delete(auth.key as string);
+    }
+   }
+
+   await db.put({ uuid });
+   cookies().set("auth", uuid, { secure: true, sameSite: "lax" });
+  }
+ } else {
+  cookies().delete("auth");
+ }
+}
+
+export async function isAuth() {
+ const authCookie = cookies().get("auth");
+
+ if (!authCookie) {
+  return false;
+ }
+
+ const db = Base("auth");
+
+ const auth = await db.fetch();
+
+ if (auth.count === 0) {
+  return false;
+ }
+
+ return auth.items[0].uuid === authCookie.value;
 }
