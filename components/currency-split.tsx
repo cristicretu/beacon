@@ -10,7 +10,56 @@ export function CurrencySplit({
   total: number;
   className?: string;
 }) {
-  const isCurrencyDollar = currencySymbol(currency) === "$";
+  const reversedCurrency =
+    currency === "USD" ||
+    currency === "EUR" ||
+    currency === "GBP" ||
+    currency === "JPY" ||
+    currency === "CAD" ||
+    currency === "AUD" ||
+    currency === "CHF" ||
+    currency === "CNY" ||
+    currency === "ZAR" ||
+    currency === "NZD" ||
+    currency === "ZAR" ||
+    currency === "MXN" ||
+    currency === "SGD" ||
+    currency === "HKD" ||
+    currency === "INR" ||
+    currency === "RUB" ||
+    currency === "BRL" ||
+    currency === "TRY" ||
+    currency === "KRW" ||
+    currency === "SEK" ||
+    currency === "DKK" ||
+    currency === "NOK" ||
+    currency === "PLN" ||
+    currency === "ILS" ||
+    currency === "THB" ||
+    currency === "MYR" ||
+    currency === "IDR" ||
+    currency === "PHP" ||
+    currency === "SAR" ||
+    currency === "AED" ||
+    currency === "EGP" ||
+    currency === "CLP" ||
+    currency === "COP" ||
+    currency === "ARS" ||
+    currency === "PEN" ||
+    currency === "VES" ||
+    currency === "UYU" ||
+    currency === "JOD" ||
+    currency === "KWD" ||
+    currency === "QAR" ||
+    currency === "OMR" ||
+    currency === "BHD" ||
+    currency === "BND" ||
+    currency === "FJD" ||
+    currency === "JMD" ||
+    currency === "MUR" ||
+    currency === "NPR" ||
+    currency === "PKR" ||
+    currency === "LKR";
 
   let formattedTotal = total.toLocaleString(undefined, {
     minimumFractionDigits: 2,
@@ -26,7 +75,7 @@ export function CurrencySplit({
 
   return (
     <div className={cn("flex gap-0.5", className)}>
-      {(isCurrencyDollar && !className) || (!isCurrencyDollar && className) ? (
+      {(reversedCurrency && !className) || (!reversedCurrency && className) ? (
         <>
           <span>{currencySymbol(currency)}</span>
           <span>{formattedTotal}</span>

@@ -260,6 +260,8 @@ export async function updateItem(
  if (index !== -1) {
   items[index] = item;
 
+  items[index].price = items[index].price || 0;
+
   await db.update({ items }, key);
  }
  revalidatePath("/");

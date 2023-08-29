@@ -23,7 +23,7 @@ export function TableNumberField({
       <Input
         type="number"
         id={field}
-        placeholder={item[field].toString()}
+        placeholder={`Enter ${field === "quantity" ? "quantity" : "price"}`}
         value={value}
         onChange={(e) => {
           field === "quantity" ? setValue(parseInt(e.target.value)) : setValue(parseFloat(e.target.value));
