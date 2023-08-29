@@ -58,6 +58,11 @@ export async function updateStatus(
   return;
  }
 
+ const auth = await isAuth();
+ if (!auth) {
+  return;
+ }
+
  const db = Base("invoices");
 
  const invoice = await db.get(key);
@@ -83,6 +88,11 @@ export async function deleteInvoice(key: string | undefined) {
   return;
  }
 
+ const auth = await isAuth();
+ if (!auth) {
+  return;
+ }
+
  const db = Base("invoices");
 
  const invoice = await db.get(key);
@@ -101,6 +111,11 @@ export async function updateDate(
  field: "issue_date" | "due_date"
 ) {
  if (!key) {
+  return;
+ }
+
+ const auth = await isAuth();
+ if (!auth) {
   return;
  }
 
@@ -125,6 +140,11 @@ export async function updateContact(
   return;
  }
 
+ const auth = await isAuth();
+ if (!auth) {
+  return;
+ }
+
  const db = Base("invoices");
 
  const invoice = await db.get(key);
@@ -139,6 +159,11 @@ export async function updateContact(
 
 export async function createContact(contact: Contact) {
  const db = Base("contacts");
+
+ const auth = await isAuth();
+ if (!auth) {
+  return;
+ }
 
  if (!contact.name) {
   return;
@@ -158,6 +183,11 @@ export async function updateField(
   return;
  }
 
+ const auth = await isAuth();
+ if (!auth) {
+  return;
+ }
+
  const db = Base("invoices");
 
  const invoice = await db.get(key);
@@ -172,6 +202,11 @@ export async function updateField(
 
 export async function createInvoice() {
  const db = Base("invoices");
+
+ const auth = await isAuth();
+ if (!auth) {
+  return;
+ }
 
  const newInvoice = await db.put({
   name: "New Invoice",
@@ -196,6 +231,11 @@ export async function createInvoice() {
 
 export async function duplicateInvoice(key: string | undefined) {
  if (!key) {
+  return;
+ }
+
+ const auth = await isAuth();
+ if (!auth) {
   return;
  }
 
@@ -246,6 +286,11 @@ export async function updateItem(
   return;
  }
 
+ const auth = await isAuth();
+ if (!auth) {
+  return;
+ }
+
  const db = Base("invoices");
 
  const invoice = await db.get(key);
@@ -280,6 +325,11 @@ export async function deleteItem(key: string | undefined, id: string) {
   return;
  }
 
+ const auth = await isAuth();
+ if (!auth) {
+  return;
+ }
+
  const db = Base("invoices");
 
  const invoice = await db.get(key);
@@ -306,6 +356,11 @@ export async function updateSubItem(
  id: string
 ) {
  if (!key) {
+  return;
+ }
+
+ const auth = await isAuth();
+ if (!auth) {
   return;
  }
 
@@ -338,6 +393,11 @@ export async function deleteSubItem(key: string | undefined, id: string) {
   return;
  }
 
+ const auth = await isAuth();
+ if (!auth) {
+  return;
+ }
+
  const db = Base("invoices");
 
  const invoice = await db.get(key);
@@ -360,6 +420,11 @@ export async function deleteSubItem(key: string | undefined, id: string) {
 
 export async function updateTotal(key: string | undefined) {
  if (!key) {
+  return;
+ }
+
+ const auth = await isAuth();
+ if (!auth) {
   return;
  }
 
@@ -396,6 +461,11 @@ export async function updateContactInfo(
   return;
  }
 
+ const auth = await isAuth();
+ if (!auth) {
+  return;
+ }
+
  const db = Base("contacts");
 
  const contactInfo = await db.get(key);
@@ -415,6 +485,11 @@ export async function deleteContact(key: string | undefined) {
   return;
  }
 
+ const auth = await isAuth();
+ if (!auth) {
+  return;
+ }
+
  const db = Base("contacts");
 
  const contactInfo = await db.get(key);
@@ -431,6 +506,11 @@ export async function checkDeletedContactActive(
  contactKey: string | undefined
 ) {
  if (!contactKey) {
+  return;
+ }
+
+ const auth = await isAuth();
+ if (!auth) {
   return;
  }
 
