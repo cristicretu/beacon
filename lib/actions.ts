@@ -4,7 +4,7 @@ import { Contact, Invoice, InvoiceItem, InvoiceSubItem } from "./types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { v4 as uuidv4 } from "uuid";
+import sha256 from "crypto-js/sha256";
 
 export async function getInvoices() {
  const db = Base("invoices");
@@ -466,25 +466,57 @@ export async function checkDeletedContactActive(
 }
 
 export async function setCookie(setter: boolean) {
- const uuid = uuidv4();
-
  if (setter) {
-  const auth = cookies().get("auth");
-  if (!auth) {
-   const db = Base("auth");
+  const db = Base("auth");
 
-   const oldAuth = await db.fetch();
+  const base_auth = await db.fetch();
+  const auth = base_auth.items[0];
 
-   if (oldAuth.count > 0) {
-    for (const auth of oldAuth.items) {
-     if (!auth.key) continue;
-     await db.delete(auth.key as string);
-    }
+  if (
+   !auth ||
+   !auth.expire ||
+   !auth.uuid ||
+   new Date(auth.expire as string).getTime() < new Date().getTime()
+  ) {
+   const nonce =
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15);
+   const uuid = sha256(
+    nonce + "beacon" + new Date().getTime().toString()
+   ).toString();
+
+   //  delete all auths
+   for (const auth of base_auth.items) {
+    if (!auth.key) continue;
+    await db.delete(auth.key as string);
    }
 
-   await db.put({ uuid });
-   cookies().set("auth", uuid, { secure: true, sameSite: "lax" });
+   await db.put({
+    uuid,
+    expire: new Date(
+     new Date().getTime() + 7 * 24 * 60 * 60 * 1000
+    ).toISOString(),
+   });
+
+   cookies().set("auth", uuid, {
+    secure: true,
+    sameSite: "lax",
+    httpOnly: true,
+    expires: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
+   });
+
+   return;
   }
+
+  const uuid = auth.uuid;
+  const expire = auth.expire;
+
+  cookies().set("auth", uuid.toString(), {
+   secure: true,
+   sameSite: "lax",
+   httpOnly: true,
+   expires: new Date(expire as string),
+  });
  } else {
   cookies().delete("auth");
  }

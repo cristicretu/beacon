@@ -28,6 +28,7 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "confetti-explosion-react": "^0.1.2",
+    "crypto-js": "^4.1.1",
     "date-fns": "^2.30.0",
     "deta": "2.0.0-rc.1",
     "eslint": "8.47.0",
@@ -47,6 +48,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
     "@types/uuid": "^9.0.2"
   }
 }

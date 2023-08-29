@@ -33,9 +33,11 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-  webpack: (config) => {
-    const entry = generateAppDirEntry(config.entry);
-    config.entry = () => entry;
+  webpack: (config, {dev}) => {
+    if (!dev) {
+      const entry = generateAppDirEntry(config.entry);
+      config.entry = () => entry;
+    }
 
     return config;
   },
