@@ -19,7 +19,11 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Beacon",
-  description: "A simple way to create and share invoices.",
+  description: "Create and store your invoices.",
+  manifest: "/manifest.json",
+  viewport: "width=device-width, initial-scale=1",
+  icons: ["/favicon.ico"],
+  themeColor: "#ffffff",
 };
 
 export default async function RootLayout({

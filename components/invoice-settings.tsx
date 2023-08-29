@@ -60,7 +60,7 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
     }, animationDuration);
   }
 
-  function animateOpacity(timestamp: number, startTime: number, animationDuration: number) {
+  const animateOpacity = React.useCallback((timestamp: number, startTime: number, animationDuration: number) => {
     if (!startTime) startTime = timestamp;
     const progress = (timestamp - startTime) / animationDuration;
     const newOpacity = Math.max(0, 100 - 100 * progress);
@@ -69,7 +69,7 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
     if (progress < 1) {
       requestAnimationFrame((timestamp) => animateOpacity(timestamp, startTime, animationDuration));
     }
-  }
+  }, []);
 
   React.useEffect(() => {
     if (isExploding) {
@@ -77,7 +77,7 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
 
       requestAnimationFrame((timestamp) => animateOpacity(timestamp, startTime, animationDuration));
     }
-  }, [isExploding]);
+  }, [isExploding, animateOpacity]);
 
   return (
     <div className="w-full flex justify-end print:hidden gap-2">

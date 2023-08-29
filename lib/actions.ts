@@ -392,7 +392,6 @@ export async function updateContactInfo(
  key: string | undefined,
  contact: Contact
 ) {
- console.log("aici taica");
  if (!key) {
   return;
  }

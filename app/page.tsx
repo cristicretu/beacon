@@ -52,7 +52,7 @@ export default async function Home() {
           </div>
         ) : (
           <div className="flex items-center flex-col gap-4">
-            Looks like you don't have any invoices yet. Create your first one now{" "}
+            Looks like you don&apos;t have any invoices yet. Create your first one now{" "}
             {":)"}
             <Settings theme={false} />
           </div>
@@ -61,7 +61,3 @@ export default async function Home() {
     </main>
   );
 }
-
-// number of invoices created
-// money earned
-// how many clients
