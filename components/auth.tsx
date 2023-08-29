@@ -32,7 +32,6 @@ export default function Auth() {
     fetchData();
 
     return () => {
-      // Cleanup function to cancel the request if the component unmounts
       controller.abort();
     };
   }, []);

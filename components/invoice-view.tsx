@@ -3,14 +3,10 @@ import { TableItems } from "./table-items";
 import { TableSubtotal } from "./table-subtotal";
 import { Invoice } from "@/lib/types";
 import { InvoiceSettings } from "./invoice-settings";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import { InvoiceGrid } from "./invoice-grid";
 import { getContacts } from "@/lib/actions";
 import { Suspense } from "react";
 import { InvoiceField } from "./invoice-metadata";
-import { currencySymbol } from "@/lib/currencies";
-import { cn } from "@/lib/utils";
 import { CurrencySplit } from "./currency-split";
 
 export async function InvoiceView({

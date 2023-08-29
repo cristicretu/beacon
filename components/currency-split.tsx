@@ -65,7 +65,6 @@ export function CurrencySplit({
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-  // if 0,00005, show it
   if (formattedTotal === "0.00") {
     // if 0,00005, show it
     if (total > 0) {

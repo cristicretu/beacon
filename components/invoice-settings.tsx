@@ -26,6 +26,7 @@ import { useTransition } from "react";
 import { deleteInvoice, duplicateInvoice, updateStatus } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { AlertDialogDelete } from "./AlertDialogDelete";
 
 export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
   let [isPending, startTransition] = useTransition();
@@ -133,20 +134,12 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem
-              onClick={() => {
-                toast({
-                  description: `${invoice.name} has been deleted.`,
-                });
-                startTransition(() => {
-                  router.push("/");
-                  deleteInvoice(invoice.key);
-                });
-              }}
-            >
-              <Trash className="mr-2 h-4 w-4" />
-              <span>Delete</span>
-            </DropdownMenuItem>
+            <AlertDialogDelete name={invoice.name} invoiceKey={invoice.key!}>
+              <Button variant="ghost" className="w-full h-6 py-4 flex flex-row justify-start px-2">
+                <Trash className="mr-2 h-4 w-4" />
+                <span>Delete</span>
+              </Button>
+            </AlertDialogDelete>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
