@@ -36,7 +36,8 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
   const [opacity, setOpacity] = React.useState(100);
   const animationDuration = 3500;
 
-  const router = useRouter();
+  const soundRef = React.useRef<HTMLAudioElement | null>(null);
+
   const { toast } = useToast();
 
   function copyLink() {
@@ -49,6 +50,12 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
     setIsExploding(true);
 
     setTimeout(() => {
+      if (soundRef.current) {
+        soundRef.current.play();
+      }
+    }, 400);
+
+    setTimeout(() => {
       setIsExploding(false);
     }, animationDuration);
   }
@@ -56,7 +63,7 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
   function animateOpacity(timestamp: number, startTime: number, animationDuration: number) {
     if (!startTime) startTime = timestamp;
     const progress = (timestamp - startTime) / animationDuration;
-    const newOpacity = Math.max(0, 100 - 100 * progress); // Gradually reduce opacity from 100 to 0
+    const newOpacity = Math.max(0, 100 - 100 * progress);
     setOpacity(newOpacity);
 
     if (progress < 1) {
@@ -74,6 +81,7 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
 
   return (
     <div className="w-full flex justify-end print:hidden gap-2">
+      <audio ref={soundRef} src={'/sound.mp3'} />
       {invoice.draft === true ? (
         <Button
           variant="ghost"
