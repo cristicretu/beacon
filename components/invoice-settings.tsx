@@ -1,6 +1,18 @@
 "use client";
 
-import { Button } from "./ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/use-toast";
+import { duplicateInvoice, updateStatus } from "@/lib/actions";
+import { Invoice } from "@/lib/types";
 import {
   Check,
   CircleDashed,
@@ -11,25 +23,19 @@ import {
   Trash,
   Wallet,
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import { Invoice } from "@/lib/types";
-import { useTransition } from "react";
-import { deleteInvoice, duplicateInvoice, updateStatus } from "@/lib/actions";
 import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
+import React, { useTransition } from "react";
 import { AlertDialogDelete } from "./AlertDialogDelete";
+import { Button } from "./ui/button";
+import ConfettiExplosion from 'confetti-explosion-react';
+
 
 export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
   let [isPending, startTransition] = useTransition();
+  const [isExploding, setIsExploding] = React.useState(false);
+  const [opacity, setOpacity] = React.useState(100);
+  const animationDuration = 3500;
+
   const router = useRouter();
   const { toast } = useToast();
 
@@ -38,6 +44,33 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
       `${window.location.origin}/invoice/${invoice.key}`
     );
   }
+
+  function explode() {
+    setIsExploding(true);
+
+    setTimeout(() => {
+      setIsExploding(false);
+    }, animationDuration);
+  }
+
+  function animateOpacity(timestamp: number, startTime: number, animationDuration: number) {
+    if (!startTime) startTime = timestamp;
+    const progress = (timestamp - startTime) / animationDuration;
+    const newOpacity = Math.max(0, 100 - 100 * progress); // Gradually reduce opacity from 100 to 0
+    setOpacity(newOpacity);
+
+    if (progress < 1) {
+      requestAnimationFrame((timestamp) => animateOpacity(timestamp, startTime, animationDuration));
+    }
+  }
+
+  React.useEffect(() => {
+    if (isExploding) {
+      let startTime: any = null;
+
+      requestAnimationFrame((timestamp) => animateOpacity(timestamp, startTime, animationDuration));
+    }
+  }, [isExploding]);
 
   return (
     <div className="w-full flex justify-end print:hidden gap-2">
@@ -62,13 +95,19 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
             toast({
               description: "Hooray! Your invoice is paid!",
             });
+            explode();
           }}
         >
           <Check className="mr-2 h-4 w-4" />
           Mark Paid
         </Button>
       ) : (
-        <Badge variant="success">Paid</Badge>
+        <>
+          <Badge variant="success">Paid</Badge>
+          {isExploding && <div style={{
+            opacity: opacity / 100,
+          }}><ConfettiExplosion /></div>}
+        </>
       )}
 
       <DropdownMenu>
