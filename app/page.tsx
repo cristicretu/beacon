@@ -17,13 +17,14 @@ export default async function Home() {
   return (
     <main className="mx-auto max-w-4xl flex flex-col items-center text-neutral-500">
       <h1 className="text-neutral-900 dark:text-neutral-100">Beacon.</h1>
-      <p>An uncomplicated yet sturdy application for overseeing your invoices.</p>
+      <p className="text-center">An uncomplicated yet sturdy application for overseeing your invoices.</p>
 
-      <div className="mt-12 w-full rounded-lg bg-neutral-50 dark:bg-neutral-900 px-24 py-12">
+      <div className="mt-12 w-full rounded-lg bg-neutral-50 dark:bg-neutral-900 px-8 md:px-12 lg:px-24 py-12">
         {invoices.length > 0 ? (
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="flex flex-col">
-              <h1 className="text-neutral-900 dark:text-neutral-100 font-semibold text-2xl">
+              <h1 className="text-neutral-900 dark:text-neutral-100 font-semibold text-xl md:text-2xl">
+                {" "}
                 {simplifiedArray.length > 0 ? (
                   <CurrencySplit
                     currency={simplifiedArray[0].currency}
@@ -37,14 +38,15 @@ export default async function Home() {
             </div>
 
             <div className="flex flex-col">
-              <h1 className="text-neutral-900 dark:text-neutral-100 font-semibold text-2xl">
+              <h1 className="text-neutral-900 dark:text-neutral-100 font-semibold text-xl md:text-2xl">
                 {invoices.length}
               </h1>
               <p>Invoices Created</p>
             </div>
 
             <div className="flex flex-col">
-              <h1 className="text-neutral-900 dark:text-neutral-100 font-semibold text-2xl">
+              <h1 className="text-neutral-900 dark:text-neutral-100 font-semibold text-xl md:text-2xl">
+                {" "}
                 {contacts.length}
               </h1>
               <p>Saved Contacts</p>

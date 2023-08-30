@@ -28,6 +28,7 @@ export async function InvoiceView({
         </Suspense>
       )}
 
+
       {/* Top part */}
       <div className="flex flex-col space-y-8">
         {/* <Avatar>

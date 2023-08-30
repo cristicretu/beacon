@@ -23,12 +23,10 @@ import {
   Trash,
   Wallet,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import React, { useTransition } from "react";
 import { AlertDialogDelete } from "./AlertDialogDelete";
 import { Button } from "./ui/button";
-import ConfettiExplosion from 'confetti-explosion-react';
-
+import ConfettiExplosion from "confetti-explosion-react";
 
 export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
   let [isPending, startTransition] = useTransition();
@@ -42,7 +40,7 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
 
   function copyLink() {
     navigator.clipboard.writeText(
-      `${window.location.origin}/invoice/${invoice.key}`
+      `${window.location.origin}/invoice/public/${invoice.key}`
     );
   }
 
@@ -60,28 +58,35 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
     }, animationDuration);
   }
 
-  const animateOpacity = React.useCallback((timestamp: number, startTime: number, animationDuration: number) => {
-    if (!startTime) startTime = timestamp;
-    const progress = (timestamp - startTime) / animationDuration;
-    const newOpacity = Math.max(0, 100 - 100 * progress);
-    setOpacity(newOpacity);
+  const animateOpacity = React.useCallback(
+    (timestamp: number, startTime: number, animationDuration: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = (timestamp - startTime) / animationDuration;
+      const newOpacity = Math.max(0, 100 - 100 * progress);
+      setOpacity(newOpacity);
 
-    if (progress < 1) {
-      requestAnimationFrame((timestamp) => animateOpacity(timestamp, startTime, animationDuration));
-    }
-  }, []);
+      if (progress < 1) {
+        requestAnimationFrame((timestamp) =>
+          animateOpacity(timestamp, startTime, animationDuration)
+        );
+      }
+    },
+    []
+  );
 
   React.useEffect(() => {
     if (isExploding) {
       let startTime: any = null;
 
-      requestAnimationFrame((timestamp) => animateOpacity(timestamp, startTime, animationDuration));
+      requestAnimationFrame((timestamp) =>
+        animateOpacity(timestamp, startTime, animationDuration)
+      );
     }
   }, [isExploding, animateOpacity]);
 
   return (
     <div className="w-full flex justify-end print:hidden gap-2">
-      <audio ref={soundRef} src={'/sound.mp3'} />
+      <audio ref={soundRef} src={"/sound.mp3"} />
       {invoice.draft === true ? (
         <Button
           variant="ghost"
@@ -110,12 +115,19 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
           Mark Paid
         </Button>
       ) : (
-        <>
-          <Badge variant="success">Paid</Badge>
-          {isExploding && <div style={{
-            opacity: opacity / 100,
-          }}><ConfettiExplosion /></div>}
-        </>
+        <div className="relative">
+          <Badge variant="success" className="py-2">Paid</Badge>
+          {isExploding && (
+            <div
+              style={{
+                opacity: opacity / 100,
+              }}
+              className="absolute top-0 left-2"
+            >
+              <ConfettiExplosion />
+            </div>
+          )}
+        </div>
       )}
 
       <DropdownMenu>
@@ -182,7 +194,10 @@ export function InvoiceSettings({ invoice }: { invoice: Invoice }) {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <AlertDialogDelete name={invoice.name} invoiceKey={invoice.key!}>
-              <Button variant="ghost" className="w-full h-6 py-4 flex flex-row justify-start px-2">
+              <Button
+                variant="ghost"
+                className="w-full h-6 py-4 flex flex-row justify-start px-2"
+              >
                 <Trash className="mr-2 h-4 w-4" />
                 <span>Delete</span>
               </Button>

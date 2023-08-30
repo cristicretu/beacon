@@ -6,6 +6,6 @@ micros:
    engine: next
    primary: true
    public_routes:
-    - "/invoices/*"
+    - "/invoices/public/*"
     - "_next/static/*"
     - "static/*"
