@@ -40,6 +40,7 @@ export type Contact = {
 export type InvoiceSubItem = {
  name: string;
  price: number;
+ relative?: number;
  id: string;
 };
 

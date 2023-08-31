@@ -8,6 +8,8 @@ import { getContacts } from "@/lib/actions";
 import { Suspense } from "react";
 import { InvoiceField } from "./invoice-metadata";
 import { CurrencySplit } from "./currency-split";
+import PrintButton from "./print-button";
+import { Skeleton } from "./ui/skeleton";
 
 export async function InvoiceView({
   invoice,
@@ -23,9 +25,13 @@ export async function InvoiceView({
   return (
     <div className="flex flex-col space-y-16 print:space-y-12 text-neutral-500 relative print:text-xs text-sm sm:text-md">
       {isAuth && (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Skeleton className="h-6 w-1/3" />}>
           <InvoiceSettings invoice={invoice} />
         </Suspense>
+      )}
+
+      {!isAuth && !editable && (
+        <PrintButton />
       )}
 
 
@@ -51,7 +57,27 @@ export async function InvoiceView({
           </div>
 
           {/* Issue Date, Due Date, From, To Grid */}
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+            <div>
+              <Skeleton className="h-6 w-1/5 mt-4" />
+              <Skeleton className="h-6 w-1/4 mt-4" />
+            </div>
+
+            <div>
+              <Skeleton className="h-6 w-1/5 mt-4" />
+              <Skeleton className="h-6 w-1/4 mt-4" />
+            </div>
+
+            <div>
+              <Skeleton className="h-6 w-1/5 mt-4" />
+              <Skeleton className="h-6 w-1/4 mt-4" />
+            </div>
+
+            <div>
+              <Skeleton className="h-6 w-1/5 mt-4" />
+              <Skeleton className="h-6 w-1/4 mt-4" />
+            </div>
+          </div>}>
             <InvoiceGrid invoice={invoice} editable={editable} contacts={contacts} />
           </Suspense>
         </div>

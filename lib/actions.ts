@@ -379,6 +379,16 @@ export async function updateSubItem(
  if (index !== -1) {
   items[index] = sub_item;
 
+  if (sub_item.relative) {
+   const allItems = invoice.items as InvoiceItem[];
+
+   const price = allItems.reduce((acc, item) => {
+    return acc + item.price * item.quantity;
+   }, 0);
+
+   items[index].price = price * (sub_item.relative / 100);
+  }
+
   await db.update({ sub_items: items }, key);
  }
  revalidatePath("/");
@@ -542,6 +552,35 @@ export async function checkDeletedContactActive(
   }
  }
 
+ revalidatePath("/");
+}
+
+export async function addSubItem(
+ invoiceKey: string | undefined,
+ relative?: boolean
+) {
+ if (!invoiceKey) {
+  return;
+ }
+
+ const db = Base("invoices");
+
+ const inv = await db.get(invoiceKey);
+
+ if (!inv) {
+  return;
+ }
+
+ let sub_items = inv.sub_items as InvoiceSubItem[];
+
+ sub_items.push({
+  name: "New Item",
+  price: 0,
+  id: Math.random().toString(36).substr(2, 9),
+  relative: relative ? 19 : undefined,
+ });
+
+ await db.update({ sub_items }, invoiceKey);
  revalidatePath("/");
 }
 
