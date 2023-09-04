@@ -450,13 +450,29 @@ export async function updateTotal(key: string | undefined) {
  const sub_items = invoice.sub_items as InvoiceSubItem[];
 
  let total = 0;
+ let itemsTotal = 0;
 
  items.forEach((item) => {
-  total += item.price * item.quantity;
+  itemsTotal += item.price * item.quantity;
  });
 
+ total += itemsTotal;
  sub_items.forEach((item) => {
-  total += item.price;
+  if (item.relative) {
+   total += itemsTotal * (item.relative / 100);
+
+   const id = item.id;
+   const index = sub_items.findIndex((i) => i.id === id);
+   if (
+    index !== -1 &&
+    sub_items[index].price !== itemsTotal * (item.relative / 100)
+   ) {
+    sub_items[index].price = itemsTotal * (item.relative / 100);
+    db.update({ sub_items }, key);
+   }
+  } else {
+   total += item.price;
+  }
  });
 
  await db.update({ total }, key);
@@ -573,9 +589,17 @@ export async function addSubItem(
 
  let sub_items = inv.sub_items as InvoiceSubItem[];
 
+ let items = inv.items as InvoiceItem[];
+
+ let total = 0;
+
+ items.forEach((item) => {
+  total += item.price * item.quantity;
+ });
+
  sub_items.push({
   name: "New Item",
-  price: 0,
+  price: relative ? total * 0.19 : 0,
   id: Math.random().toString(36).substr(2, 9),
   relative: relative ? 19 : undefined,
  });

@@ -1,6 +1,6 @@
 # Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
 v: 0
-icon: /public/ios/512.png
+icon: public/ios/1024.png
 micros:
  - name: beacon
    src: ./

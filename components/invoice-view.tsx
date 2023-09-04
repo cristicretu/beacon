@@ -11,6 +11,7 @@ import { CurrencySplit } from "./currency-split";
 import PrintButton from "./print-button";
 import { Skeleton } from "./ui/skeleton";
 
+
 export async function InvoiceView({
   invoice,
   editable,

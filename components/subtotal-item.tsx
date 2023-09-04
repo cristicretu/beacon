@@ -1,6 +1,6 @@
 "use client";
 
-import { addSubItem } from "@/lib/actions";
+import { addSubItem, updateTotal } from "@/lib/actions";
 import { Percent, TextCursorInput } from "lucide-react";
 import { useTransition } from "react";
 import { Button } from "./ui/button";
@@ -31,7 +31,10 @@ export default function SubtotalItem({ invoiceKey }: { invoiceKey: string | unde
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
-              startTransition(() => addSubItem(invoiceKey, true));
+              startTransition(() => {
+                addSubItem(invoiceKey, true)
+                updateTotal(invoiceKey);
+              });
             }}
           >
             <Percent className="mr-2 h-4 w-4" />
