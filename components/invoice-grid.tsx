@@ -178,7 +178,7 @@ export function InvoiceGrid({
                   {invoice.to.vatId && <span>Vat ID: {invoice.to.vatId}</span>}
                   {invoice.to.iban && <span>IBAN: {invoice.to.iban}</span>}
                   {invoice.to.swift && <span>Swift: {invoice.to.swift}</span>}
-                  {invoice.to.currency && <span>Currency: {invoice.from.currency}</span>}
+                  {invoice.to.currency && <span>Currency: {invoice.to.currency}</span>}
                 </div>
               </div>
               <HoverCard>
