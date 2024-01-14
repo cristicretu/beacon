@@ -625,7 +625,7 @@ export async function setCookie(setter: boolean) {
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15);
    const uuid = sha256(
-    nonce + "beacon" + new Date().getTime().toString()
+    nonce + "Invoyce" + new Date().getTime().toString()
    ).toString();
 
    //  delete all auths

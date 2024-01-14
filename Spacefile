@@ -1,12 +1,12 @@
 # Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
 v: 0
-icon: public/ios/1024.png
+icon: ./invoyce.png
 micros:
- - name: beacon
-   src: ./
-   engine: next
-   primary: true
-   public_routes:
-    - "/invoice/public/*"
-    - "_next/static/*"
-    - "static/*"
+  - name: beacon
+    src: ./
+    engine: next
+    primary: true
+    public_routes:
+      - "/invoice/public/*"
+      - "_next/static/*"
+      - "static/*"

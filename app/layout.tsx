@@ -18,7 +18,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Beacon",
+  title: "Invoyce",
   description: "Create and store your invoices.",
   manifest: "/manifest.json",
   viewport: "width=device-width, initial-scale=1",
@@ -34,7 +34,7 @@ export default async function RootLayout({
   const invoices = await getInvoices();
 
   const authPromise = isAuth();
-  const auth = await authPromise;
+  const auth = await authPromise; 
 
   return (
     <html lang="en">

@@ -3,10 +3,10 @@ interface Props { }
 export const Meta = ({ }: Props) => {
   return (
     <>
-      <meta name="application-name" content="Beacon" />
+      <meta name="application-name" content="Invoyce" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-      <meta name="apple-mobile-web-app-title" content="Beacon" />
+      <meta name="apple-mobile-web-app-title" content="Invoyce" />
       <meta name="description" content="Create and store your invoices." />
       <meta name="format-detection" content="telephone=no" />
       <meta name="mobile-web-app-capable" content="yes" />
