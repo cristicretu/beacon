@@ -1,4 +1,4 @@
-import Auth from "@/components/auth";
+// import Auth from "@/components/auth";
 import { InvoiceNav } from "@/components/invoice-nav";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
@@ -7,8 +7,8 @@ import {
   SheetContent,
   SheetTrigger
 } from "@/components/ui/sheet";
-import { getInvoices, isAuth } from "@/lib/actions";
-import { cn } from "@/lib/utils";
+import { getInvoices } from "@/lib/actions";
+import { cn, isAuth } from "@/lib/utils";
 import { Menu } from "lucide-react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -18,7 +18,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Invoyce",
+  title: "Talyx",
   description: "Create and store your invoices.",
   manifest: "/manifest.json",
   viewport: "width=device-width, initial-scale=1",
@@ -33,8 +33,9 @@ export default async function RootLayout({
 }) {
   const invoices = await getInvoices();
 
-  const authPromise = isAuth();
-  const auth = await authPromise; 
+  // TODO replace localhost with env variable
+  const auth = await isAuth();
+
 
   return (
     <html lang="en">
@@ -60,7 +61,7 @@ export default async function RootLayout({
                 </SheetContent>
               </Sheet>
             )}
-            <Auth />
+            {/* <Auth /> */}
             <div>{children}</div>
             <Toaster />
           </div>

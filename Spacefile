@@ -1,6 +1,6 @@
 # Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
 v: 0
-icon: ./invoyce.png
+icon: ./talyx.png
 micros:
   - name: beacon
     src: ./

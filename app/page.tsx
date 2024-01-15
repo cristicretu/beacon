@@ -16,7 +16,7 @@ export default async function Home() {
 
   return (
     <main className="mx-auto max-w-4xl flex flex-col items-center text-neutral-500">
-      <h1 className="text-neutral-900 dark:text-neutral-100">Invoyce.</h1>
+      <h1 className="text-neutral-900 dark:text-neutral-100">Talyx.</h1>
       <p className="text-center">An uncomplicated yet sturdy application for overseeing your invoices.</p>
 
       <div className="mt-12 w-full rounded-lg bg-neutral-50 dark:bg-neutral-900 px-8 md:px-12 lg:px-24 py-12">

@@ -1,6 +1,6 @@
 import { InvoiceView } from "@/components/invoice-view";
-import { getInvoice, isAuth } from "@/lib/actions";
-import { cn } from "@/lib/utils";
+import { getInvoice } from "@/lib/actions";
+import { cn, isAuth } from "@/lib/utils";
 
 export default async function InvoicePage({
   params,
@@ -8,8 +8,9 @@ export default async function InvoicePage({
   params: { slug: string };
 }) {
   const invoice = await getInvoice(params.slug);
-  const authPromise = isAuth();
-  const auth = await authPromise;
+
+  const auth = await isAuth();
+  
 
   if (!invoice) {
     return <div>Invoice not found</div>;

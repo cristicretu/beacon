@@ -3,10 +3,10 @@ interface Props { }
 export const Meta = ({ }: Props) => {
   return (
     <>
-      <meta name="application-name" content="Invoyce" />
+      <meta name="application-name" content="Talyx" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-      <meta name="apple-mobile-web-app-title" content="Invoyce" />
+      <meta name="apple-mobile-web-app-title" content="Talyx" />
       <meta name="description" content="Create and store your invoices." />
       <meta name="format-detection" content="telephone=no" />
       <meta name="mobile-web-app-capable" content="yes" />
@@ -14,7 +14,7 @@ export const Meta = ({ }: Props) => {
       <meta name="msapplication-TileColor" content="#2B5797" />
       <meta name="msapplication-tap-highlight" content="no" />
 
-      <link rel="apple-touch-icon" href="./icons/touch-icon-iphone.png" />
+      {/* <link rel="apple-touch-icon" href="./icons/touch-icon-iphone.png" />
       <link
         rel="apple-touch-icon"
         sizes="152x152"
@@ -104,7 +104,7 @@ export const Meta = ({ }: Props) => {
         rel="apple-touch-startup-image"
         href="/images/apple_splash_640.png"
         sizes="640x1136"
-      />
+      /> */}
     </>
   );
 };
